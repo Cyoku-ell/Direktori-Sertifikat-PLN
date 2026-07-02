@@ -36,23 +36,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('certificates.')
         ->group(function () {
 
+            // Halaman Datatable
             Route::get('/', [CertificateController::class, 'index'])
                 ->name('index');
 
-            Route::get('/{certificate}', [CertificateController::class, 'show'])
-                ->name('show');
+            // Ajax Datatable
+            Route::get('/datatable', [CertificateController::class, 'datatable'])
+                ->name('datatable');
 
+            // Upload
             Route::post('/', [CertificateController::class, 'store'])
                 ->name('store');
 
+            // Detail
+            Route::get('/{certificate}', [CertificateController::class, 'show'])
+                ->name('show');
+
+            // Edit
             Route::put('/{certificate}', [CertificateController::class, 'update'])
                 ->name('update');
 
+            // Delete
             Route::delete('/{certificate}', [CertificateController::class, 'destroy'])
                 ->name('destroy');
-
         });
-
 });
 
 // ===============================
@@ -81,7 +88,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
             Route::delete('/{unit}', [UnitController::class, 'destroy'])
                 ->name('destroy');
-
         });
 
     // Certification
@@ -104,9 +110,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
             Route::delete('/{certification}', [CertificationController::class, 'destroy'])
                 ->name('destroy');
-
         });
-
 });
 
 // ===============================
@@ -123,7 +127,6 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
