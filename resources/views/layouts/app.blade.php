@@ -22,6 +22,7 @@
     @include('layouts.header.index')
 
     <div class=" min-h-[100vh] max-w-screen mx-auto overflow-hidden lg:flex shadow-xl flex-1 ">
+        @include('layouts.sidebar.index')
     
         <main class="flex-grow flex-col">
             @yield('content')

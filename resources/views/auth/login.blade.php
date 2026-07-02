@@ -20,11 +20,11 @@
             <div class="absolute top-0 left-0 w-full h-2 rounded-t-[30px] bg-[#fbf306]"></div>
 
             <h1 class="text-3xl font-bold text-center text-[#146379] mt-4">
-                Welcome Back
+                Selamat Datang Kembali!
             </h1>
 
             <p class="text-center text-gray-500 text-sm mt-2 mb-7">
-                Login to continue managing your PLN Certificate Directory.
+                Login untuk melanjutkan akses.
             </p>
 
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
@@ -46,7 +46,7 @@
                             name="email"
                             value="{{ old('email') }}"
                             class="w-full rounded-xl border-gray-300 pl-11 h-12 focus:ring-[#199db7] focus:border-[#199db7]"
-                            placeholder="Enter your email"
+                            placeholder="Masukkan Email Anda"
                             required
                             autofocus>
 
@@ -71,7 +71,7 @@
                             type="password"
                             name="password"
                             class="w-full rounded-xl border-gray-300 pl-11 h-12 focus:ring-[#199db7] focus:border-[#199db7]"
-                            placeholder="Enter your password"
+                            placeholder="Masukkan Password Anda"
                             required>
 
                     </div>
@@ -101,7 +101,7 @@
                             href="{{ route('password.request') }}"
                             class="text-sm text-[#199db7] hover:text-[#146379]">
 
-                            Forgot Password?
+                            Lupa Password?
 
                         </a>
                     @endif
@@ -119,7 +119,7 @@
 
                 <p class="text-center text-sm text-gray-500">
 
-                    Don't have an account?
+                    Belum punya akun?
 
                     <a
                         href="{{ route('register') }}"

@@ -108,7 +108,7 @@
                 <div>
 
                     <label class="text-sm font-medium text-gray-700">
-                        Confirm Password
+                     Konfirmasi Password
                     </label>
 
                     <div class="relative mt-2">
