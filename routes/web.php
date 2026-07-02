@@ -1,35 +1,129 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\CertificationController;
+use App\Http\Controllers\CertificateController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
+// ===============================
+// Guest
+// ===============================
+
 Route::get('/', function () {
-    return view('auth/register');
+    return view('auth.register');
 });
 
-Route::get('/login', function () {
-    return view('auth/login');
+// ===============================
+// Auth (Admin & User)
+// ===============================
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // Certificate
+    Route::prefix('certificates')
+        ->name('certificates.')
+        ->group(function () {
+
+            Route::get('/', [CertificateController::class, 'index'])
+                ->name('index');
+
+            Route::get('/{certificate}', [CertificateController::class, 'show'])
+                ->name('show');
+
+            Route::post('/', [CertificateController::class, 'store'])
+                ->name('store');
+
+            Route::put('/{certificate}', [CertificateController::class, 'update'])
+                ->name('update');
+
+            Route::delete('/{certificate}', [CertificateController::class, 'destroy'])
+                ->name('destroy');
+
+        });
+
 });
 
-Route::get('/dashboard', function () {
-    return view('auth/login');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// ===============================
+// Admin Only
+// ===============================
+
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+
+    // Unit
+    Route::prefix('units')
+        ->name('units.')
+        ->group(function () {
+
+            Route::get('/', [UnitController::class, 'index'])
+                ->name('index');
+
+            // Halaman Add Unit
+            Route::get('/create', [UnitController::class, 'create'])
+                ->name('create');
+
+            Route::post('/', [UnitController::class, 'store'])
+                ->name('store');
+
+            Route::put('/{unit}', [UnitController::class, 'update'])
+                ->name('update');
+
+            Route::delete('/{unit}', [UnitController::class, 'destroy'])
+                ->name('destroy');
+
+        });
+
+    // Certification
+    Route::prefix('certifications')
+        ->name('certifications.')
+        ->group(function () {
+
+            Route::get('/', [CertificationController::class, 'index'])
+                ->name('index');
+
+            // Halaman Add Certification
+            Route::get('/create', [CertificationController::class, 'create'])
+                ->name('create');
+
+            Route::post('/', [CertificationController::class, 'store'])
+                ->name('store');
+
+            Route::put('/{certification}', [CertificationController::class, 'update'])
+                ->name('update');
+
+            Route::delete('/{certification}', [CertificationController::class, 'destroy'])
+                ->name('destroy');
+
+        });
+
+});
+
+// ===============================
+// Profile
+// ===============================
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+
 });
 
 require __DIR__.'/auth.php';

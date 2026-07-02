@@ -34,7 +34,7 @@
                 <div>
 
                     <label class="text-sm font-medium text-gray-700">
-                        Email
+                        Email  <span class="text-red-700">*</span>
                     </label>
 
                     <div class="relative mt-2">
@@ -60,7 +60,7 @@
                 <div>
 
                     <label class="text-sm font-medium text-gray-700">
-                        Password
+                        Password <span class="text-red-700">*</span>
                     </label>
 
                     <div class="relative mt-2">

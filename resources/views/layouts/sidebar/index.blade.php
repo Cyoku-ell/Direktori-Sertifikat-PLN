@@ -42,7 +42,7 @@
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
                         <li>
 
-                            <a href="#"
+                            <a href="{{ route('certifications.index') }}"
                                 class="flex items-center px-3 py-1 rounded-base
                             transition-all duration-200 ease-in-out
                             hover:bg-neutral-tertiary hover:text-[#25b6d3]
@@ -50,7 +50,7 @@
                                 <i class="fa-regular fa-map px-2"></i>Sertifikasi</a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="{{ route('units.index') }}"
                                 class="flex items-center px-3 py-1 rounded-base
                             transition-all duration-200 ease-in-out
                             hover:bg-neutral-tertiary hover:text-[#25b6d3]
