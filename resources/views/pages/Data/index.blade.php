@@ -42,6 +42,7 @@
         </div>
 
         <div class="bg-white rounded-3xl shadow-lg p-6 mt-6">
+            @include('pages.Data.partials.searchbar')
 
             <table id="certificateTable"
                 class="custom-table w-full text-sm text-left rtl:text-right bg-[#199db7] rounded-2xl">
@@ -88,9 +89,10 @@
             // DataTable
             // ===============================
             let table = $('#certificateTable').DataTable({
-
                 processing: true,
                 serverSide: true,
+                paging: true,
+                dom: 'rtp',
 
                 ajax: "{{ route('certificates.datatable') }}",
 
@@ -123,6 +125,14 @@
                         searchable: false
                     }
                 ]
+
+            });
+            // ===============================
+            // Search
+            // ===============================
+            $('#searchInput').on('keyup', function() {
+
+                table.search($(this).val()).draw();
 
             });
 

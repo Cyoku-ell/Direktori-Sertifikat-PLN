@@ -3,18 +3,30 @@
     <div class="p-8">
 
         <!-- Header -->
-        <div class="mb-8">
+        <div class="bg-white rounded-3xl shadow-lg p-8 mb-8 ">
 
-            <h1 class="text-3xl font-bold text-[#146379]">
-                Tambah Unit
-            </h1>
+            <div class="flex justify-between items-center">
 
-            <p class="text-gray-500 mt-1">
-                Tambahkan unit baru yang nantinya digunakan pada data sertifikat.
-            </p>
+                <div>
+
+                    <h1 class="text-3xl font-bold text-[#146379]">
+
+                        Tambah Unit
+
+                    </h1>
+
+                    <p class="text-gray-500 mt-2">
+
+                        Tambahkan unit yang dapat ditambah ke sertifikat .
+
+                    </p>
+
+                </div>
+
+         
+            </div>
 
         </div>
-
         <!-- Card -->
         <div class="bg-white rounded-[30px] shadow-md">
 

@@ -3,4 +3,6 @@
         src="{{ asset('assets/Logo_PLN.png') }}"
         class="max-h-full w-auto"
         alt="PLN Logo">
+
+        
 </div>

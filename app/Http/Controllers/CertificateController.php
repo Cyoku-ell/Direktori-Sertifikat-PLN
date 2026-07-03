@@ -91,4 +91,25 @@ class CertificateController extends Controller
 
         ]);
     }
+
+    public function show(Certificate $certificate)
+    {
+        if (
+            auth()->user()->hasRole('user') &&
+            $certificate->user_id != auth()->id()
+        ) {
+            abort(403);
+        }
+
+        $certificate->load([
+            'unit',
+            'certification',
+            'user'
+        ]);
+
+        return view(
+            'pages.Data.details',
+            compact('certificate')
+        );
+    }
 }

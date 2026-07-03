@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Certificate;
-
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('pages.index');
+        if (auth()->user()->hasRole('admin')) {
+
+            return view('pages.Dashboard.index');
+        }
+
+        return redirect()->route('certificates.index');
     }
 }
