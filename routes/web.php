@@ -52,6 +52,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{certificate}', [CertificateController::class, 'show'])
                 ->name('show');
 
+            Route::get('/{certificate}/edit', [CertificateController::class, 'edit'])
+                ->name('edit');
+
             // Edit
             Route::put('/{certificate}', [CertificateController::class, 'update'])
                 ->name('update');

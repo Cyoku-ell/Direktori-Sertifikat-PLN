@@ -8,6 +8,10 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Unit;
 use App\Models\Certification;
 use App\Http\Requests\StoreCertificateRequest;
+use App\Http\Requests\UpdateCertificateRequest;
+
+
+use Illuminate\Support\Facades\Storage;
 
 class CertificateController extends Controller
 {
@@ -87,7 +91,7 @@ class CertificateController extends Controller
 
         return response()->json([
 
-            'message' => 'Certificate uploaded successfully.'
+            'message' => 'Sertifikat berhasil di upload.'
 
         ]);
     }
@@ -111,5 +115,64 @@ class CertificateController extends Controller
             'pages.Data.details',
             compact('certificate')
         );
+    }
+
+    public function destroy(Certificate $certificate)
+    {
+        // Hapus file PDF
+        if (Storage::disk('public')->exists('certificates/' . $certificate->file)) {
+
+            Storage::disk('public')
+                ->delete('certificates/' . $certificate->file);
+        }
+
+        // Hapus data database
+        $certificate->delete();
+
+        return response()->json([
+
+            'message' => 'Sertifikat berhasil dihapus.'
+
+        ]);
+    }
+
+    public function edit(Certificate $certificate)
+    {
+        return response()->json($certificate);
+    }
+
+
+    public function update(UpdateCertificateRequest $request, Certificate $certificate)
+    {
+        $filename = $certificate->file;
+
+        if ($request->hasFile('file')) {
+
+            Storage::disk('public')->delete('certificates/' . $certificate->file);
+
+            $pdf = $request->file('file');
+
+            $filename = time() . '_' . $pdf->getClientOriginalName();
+
+            $pdf->storeAs('certificates', $filename, 'public');
+        }
+
+        $certificate->update([
+
+            'name' => $request->name,
+
+            'nip' => $request->nip,
+
+            'unit_id' => $request->unit_id,
+
+            'certification_id' => $request->certification_id,
+
+            'file' => $filename,
+
+        ]);
+
+        return response()->json([
+            'message' => 'Sukses mengupdate sertifikat.'
+        ]);
     }
 }
