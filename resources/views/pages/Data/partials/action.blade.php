@@ -11,7 +11,7 @@
     </a>
 
     <a class="btnEdit
-           bg-blue-500 hover:bg-blue-600
+           bg-yellow-500 hover:bg-yellow-600
            text-white px-2 py-1 rounded-md
            cursor-pointer"
         data-id="{{ $row->id }}">

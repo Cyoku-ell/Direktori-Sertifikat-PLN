@@ -25,11 +25,8 @@
                 </div>
 
                 <button id="btnUpload"
-                    class="bg-[#199db7]
-                       hover:bg-[#146379]
-                       text-white
-                       px-6 py-3
-                       rounded-xl">
+                    class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7] shadow-sm border
+                          border-gray-300 transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7] ">
 
                     <i class="fa fa-plus"></i>
 

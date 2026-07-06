@@ -8,7 +8,7 @@
         <div class="pt-5 overflow-y-auto text-black/60 overflow-hidden bg-[#ffffff] h-full rounded-[30px]">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="#"
+                    <a href="{{ route('dashboard') }}"
                         class="flex items-center px-3 py-3 rounded-base
                     transition-all duration-200 ease-in-out
                     hover:bg-neutral-tertiary hover:text-[#25b6d3]
