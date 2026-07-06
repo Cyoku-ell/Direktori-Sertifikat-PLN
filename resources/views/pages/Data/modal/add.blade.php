@@ -7,15 +7,17 @@
 
             <h2 class="text-2xl font-bold text-[#146379]">
 
-                Upload Certificate
+                Upload Sertifikat
 
             </h2>
 
             <p class="text-gray-500 text-sm mt-1">
 
-                Upload new employee certificate.
+                Upload Sertifikat Baru.
 
             </p>
+
+            
 
         </div>
 
@@ -117,7 +119,7 @@
             <div class="border-t px-8 py-5 flex justify-end gap-3">
 
                 <button type="button" id="closeModal" class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-red-500 shadow-sm border
-                          border-gray-300 transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-red-500">
+                          border-red-500 transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-red-500">
 
                     Cancel
 
@@ -125,7 +127,7 @@
 
                 <button type="submit"
                     class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7] shadow-sm border
-                          border-gray-300 transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7]">
+                          border-[#199db7] transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7]">
 
                     Upload
 

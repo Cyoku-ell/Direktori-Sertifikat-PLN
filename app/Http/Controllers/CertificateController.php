@@ -32,6 +32,18 @@ class CertificateController extends Controller
             $query = Certificate::with(['unit', 'certification'])
                 ->where('user_id', auth()->id());
         }
+        if ($request->unit_id) {
+
+            $query->where('unit_id', $request->unit_id);
+        }
+
+        if ($request->certification_id) {
+
+            $query->where(
+                'certification_id',
+                $request->certification_id
+            );
+        }
 
         return DataTables::of($query)
 

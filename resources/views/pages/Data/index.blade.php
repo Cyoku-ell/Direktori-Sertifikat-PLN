@@ -26,7 +26,7 @@
 
                 <button id="btnUpload"
                     class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7] shadow-sm border
-                          border-gray-300 transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7] ">
+                          border-[#199db7] transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7] ">
 
                     <i class="fa fa-plus"></i>
 
@@ -36,10 +36,13 @@
 
             </div>
 
+
+
         </div>
 
         <div class="bg-white rounded-3xl shadow-lg p-6 mt-6">
             @include('pages.Data.partials.searchbar')
+            @include('pages.Data.partials.filter')
 
             <table id="certificateTable"
                 class="custom-table w-full text-sm text-left rtl:text-right bg-[#199db7] rounded-2xl">
@@ -83,17 +86,26 @@
     <script>
         $(document).ready(function() {
 
-            // ===============================
             // DataTable
-            // ===============================
+     
+            let selectedUnit = "";
+            let selectedCertification = "";
             let table = $('#certificateTable').DataTable({
                 processing: true,
                 serverSide: true,
                 paging: true,
                 dom: 'rtp',
 
-                ajax: "{{ route('certificates.datatable') }}",
+                ajax: {
 
+                    url: "{{ route('certificates.datatable') }}",
+
+                    data: function(d) {
+                        d.unit_id = selectedUnit;
+                        d.certification_id = selectedCertification;
+                    }
+
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -125,18 +137,136 @@
                 ]
 
             });
-            // ===============================
+         
             // Search
-            // ===============================
+
             $('#searchInput').on('keyup', function() {
 
                 table.search($(this).val()).draw();
 
             });
 
-            // ===============================
+            // DROPDOWN FILTER
+
+            $(document).on('click', '.filter-btn', function(e) {
+
+                e.stopPropagation();
+
+                let target = $(this).data('target');
+
+                $('.filter-dropdown').not(target).hide();
+
+                $(target).toggle();
+
+            });
+
+            $(document).click(function() {
+
+                $('.filter-dropdown').hide();
+
+            });
+
+            // FILTER UNIT
+
+            $(document).on('click', '.unit-option', function() {
+
+                selectedUnit = $(this).data('value');
+
+                table.ajax.reload(null, false);
+
+                renderFilter();
+
+            });
+
+            // FILTER SERTIFIKASI
+    
+            $(document).on('click', '.certification-option', function() {
+
+                selectedCertification = $(this).data('value');
+
+                table.ajax.reload(null, false);
+
+                renderFilter();
+
+            });
+
+            // FILTER AKTIF
+     
+
+            function renderFilter() {
+
+                $('#activeFilters').html('');
+
+                if (selectedUnit != "") {
+
+                    let text = $('.unit-option[data-value="' + selectedUnit + '"]').text();
+
+                    $('#activeFilters').append(`
+            <span class="px-3 py-1 bg-[#199db7] text-white rounded-full text-sm">
+
+                Unit :
+                ${text}
+
+                <button
+                    class="remove-unit ml-2">
+
+                    ×
+
+                </button>
+
+            </span>
+        `);
+
+                }
+
+                if (selectedCertification != "") {
+
+                    let text = $('.certification-option[data-value="' + selectedCertification + '"]').text();
+
+                    $('#activeFilters').append(`
+            <span class="px-3 py-1 bg-[#199db7] text-white rounded-full text-sm">
+
+                Certification :
+                ${text}
+
+                <button
+                    class="remove-certification ml-2">
+
+                    ×
+
+                </button>
+
+            </span>
+        `);
+
+                }
+
+            }
+
+            // HAPUS FILTER
+
+            $(document).on('click', '.remove-unit', function() {
+
+                selectedUnit = "";
+
+                table.ajax.reload(null, false);
+
+                renderFilter();
+
+            });
+
+            $(document).on('click', '.remove-certification', function() {
+
+                selectedCertification = "";
+
+                table.ajax.reload(null, false);
+
+                renderFilter();
+
+            });
+
             // Open Modal
-            // ===============================
+         
             $('#btnUpload').click(function() {
 
                 $('#certificateForm')[0].reset();
@@ -145,27 +275,23 @@
 
             });
 
-            // ===============================
             // Close Modal
-            // ===============================
+       
             $('#closeModal').click(function() {
 
                 $('#addCertificateModal').addClass('hidden');
 
             });
 
-            // ===============================
             // Close Edit Modal
-            // ===============================
             $('#closeEditModal').click(function() {
 
                 $('#editCertificateModal').addClass('hidden');
 
             });
 
-            // ===============================
             // Update Certificate
-            // ===============================
+       
             $('#editCertificateForm').submit(function(e) {
 
                 e.preventDefault();
@@ -248,9 +374,8 @@
 
             });
 
-            // ===============================
             // Submit Upload
-            // ===============================
+
             $('#certificateForm').submit(function(e) {
 
                 e.preventDefault();
@@ -337,9 +462,8 @@
 
             });
 
-            // ===============================
             // Open Edit Modal
-            // ===============================
+
             $(document).on('click', '.btnEdit', function() {
 
                 let id = $(this).data('id');
@@ -378,9 +502,8 @@
 
             });
 
-            // ===============================
             // Delete Certificate
-            // ===============================
+
             $(document).on('click', '.btnDelete', function() {
 
                 let id = $(this).data('id');
