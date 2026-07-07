@@ -46,7 +46,7 @@
             class="filter-btn flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7] shadow-sm border
                           border-[#199db7] transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7]">
 
-            Certification
+            Sertifikasi
 
             <i class="fa fa-chevron-down dropdown-arrow text-xs"></i>
 
