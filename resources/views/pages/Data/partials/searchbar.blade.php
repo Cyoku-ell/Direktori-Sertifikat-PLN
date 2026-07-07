@@ -9,7 +9,7 @@
         </svg>
     </span>
 
-    <input type="text" id="searchInput" placeholder="Search package..."
+    <input type="text" id="searchInput" placeholder="Cari Sertifikat..."
         class="w-full h-11 pl-11 pr-4 rounded-xl bg-white text-sm text-gray-700 placeholder-gray-400
         border border-gray-300 shadow-sm
         transition duration-200
