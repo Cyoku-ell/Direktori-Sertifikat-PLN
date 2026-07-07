@@ -33,7 +33,7 @@
 
                     <label class="font-medium">
 
-                        Name
+                        Name <span class="text-red-700">*</span>
 
                     </label>
 
@@ -46,7 +46,7 @@
 
                     <label class="font-medium">
 
-                        NIP
+                        NIP <span class="text-red-700">*</span>
 
                     </label>
 
@@ -59,7 +59,7 @@
 
                     <label class="font-medium">
 
-                        Unit
+                        Unit <span class="text-red-700">*</span>
 
                     </label>
 
@@ -82,7 +82,7 @@
 
                     <label class="font-medium">
 
-                        Certification
+                        Sertifikasi <span class="text-red-700">*</span>
 
                     </label>
 
@@ -105,7 +105,7 @@
 
                     <label class="font-medium">
 
-                        Certificate PDF
+                    PDF Sertifikat <span class="text-red-700">*</span>
 
                     </label>
 
