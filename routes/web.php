@@ -1,12 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\UnitController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.register');
@@ -20,6 +21,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('dashboard');
             Route::get('/chart', 'chart')
                 ->name('dashboard.chart');
+        });
+
+    Route::controller(UserController::class)
+        ->prefix('users')
+        ->name('users.')
+        ->group(function () {
+
+            Route::get('/', 'index')->name('index');
+
+            Route::get('/datatable', 'datatable')->name('datatable');
+
+            Route::post('/', 'store')->name('store');
+
+            Route::get('/{user}/edit', 'edit')->name('edit');
+
+            Route::put('/{user}', 'update')->name('update');
+
+            Route::delete('/{user}', 'destroy')->name('destroy');
+
         });
 
     Route::controller(CertificateController::class)
