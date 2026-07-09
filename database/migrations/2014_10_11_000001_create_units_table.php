@@ -9,23 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::create('certifications', function (Blueprint $table) {
+    public function up(): void
+    {
+        Schema::create('units', function (Blueprint $table) {
 
-        $table->id();
+            $table->id();
 
-        $table->string('name');
+            $table->string('name')->unique();
 
-        $table->timestamps();
-
-    });
-}
+            $table->timestamps();
+        });
+    }
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('certifications');
+        Schema::dropIfExists('units');
     }
 };

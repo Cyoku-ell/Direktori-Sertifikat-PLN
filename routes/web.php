@@ -6,7 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\UnitController;
-use App\Http\Controllers\CertificationController;
+use App\Http\Controllers\PositionController;
 
 Route::get('/', function () {
     return view('auth.register');
@@ -60,9 +60,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
                 ->name('destroy');
         });
 
-    Route::controller(CertificationController::class)
-        ->prefix('certifications')
-        ->name('certifications.')
+    Route::controller(PositionController::class)
+        ->prefix('positions')
+        ->name('positions.')
         ->group(function () {
             Route::get('/', 'index')
                 ->name('index');

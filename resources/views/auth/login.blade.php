@@ -30,11 +30,11 @@
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
 
-                {{-- Email --}}
+                {{-- Username --}}
                 <div>
 
                     <label class="text-sm font-medium text-gray-700">
-                        Email  <span class="text-red-700">*</span>
+                        Username  <span class="text-red-700">*</span>
                     </label>
 
                     <div class="relative mt-2">
@@ -42,17 +42,17 @@
                         <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-[#199db7]"></i>
 
                         <input
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
+                            type="text"
+                            name="username"
+                            value="{{ old('username') }}"
                             class="w-full rounded-xl border-gray-300 pl-11 h-12 focus:ring-[#199db7] focus:border-[#199db7]"
-                            placeholder="Masukkan Email Anda"
+                            placeholder="Masukkan Username Anda"
                             required
                             autofocus>
 
                     </div>
 
-                    <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+                    <x-input-error :messages="$errors->get('username')" class="mt-2"/>
 
                 </div>
 

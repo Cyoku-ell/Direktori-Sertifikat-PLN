@@ -11,13 +11,13 @@
 
                     <h1 class="text-3xl font-bold text-[#146379]">
 
-                        Tambah Sertifikasi
+                        Tambah Jabatan
 
                     </h1>
 
                     <p class="text-gray-500 mt-2">
 
-                        Tambahkan Sertifikasi yang dapat ditambah ke sertifikat .
+                        Tambahkan Jabatan .
 
                     </p>
 
@@ -34,23 +34,23 @@
             <div class="border-b px-8 py-6">
 
                 <h2 class="text-xl font-semibold text-[#146379]">
-                    Certification Information
+                    Informasi Jabatan
                 </h2>
 
             </div>
 
             <!-- Form -->
-            <form id="unitForm" action="{{ route('certifications.store') }}" method="POST">
+            <form id="unitForm" action="{{ route('positions.store') }}" method="POST">
 
                 @csrf
 
                 <div class="p-8">
 
                     <label class="block mb-2 font-medium text-gray-700">
-                        Nama Sertifikasi
+                        Nama Jabatan
                     </label>
 
-                    <input type="text" name="name" placeholder="Contoh : Sertifikasi PKL"
+                    <input type="text" name="name" placeholder="Contoh : Senior Manager Keuangan"
                         class="w-full rounded-xl border border-gray-300 px-4 py-3
                     focus:ring-2 focus:ring-[#199db7]
                     focus:border-[#199db7]
@@ -61,7 +61,7 @@
                 <!-- Footer -->
                 <div class="border-t px-8 py-5 flex justify-end gap-3">
 
-                    <a href="{{ route('certifications.index') }}"
+                    <a href="{{ route('positions.index') }}"
                         class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-red-500 shadow-sm border
                           border-red-500 transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-red-500">
 
@@ -75,7 +75,7 @@
 
                         <i class="fa-solid fa-floppy-disk mr-2"></i>
 
-                        Save Certification
+                        Simpan Jabatan
 
                     </button>
 
@@ -97,8 +97,8 @@
             let form = $(this);
 
             Swal.fire({
-                title: 'Simpan Unit?',
-                text: "Pastikan nama unit sudah benar.",
+                title: 'Simpan Jabatan?',
+                text: "Pastikan nama Jabatan sudah benar.",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#199db7',

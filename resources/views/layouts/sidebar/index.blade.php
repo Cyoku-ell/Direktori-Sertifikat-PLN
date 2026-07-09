@@ -42,12 +42,12 @@
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
                         <li>
 
-                            <a href="{{ route('certifications.index') }}"
+                            <a href="{{ route('positions.index') }}"
                                 class="flex items-center px-3 py-1 rounded-base
                             transition-all duration-200 ease-in-out
                             hover:bg-neutral-tertiary hover:text-[#25b6d3]
                             hover:translate-x-1">
-                                <i class="fa-regular fa-map px-2"></i>Sertifikasi</a>
+                                <i class="fa-regular fa-map px-2"></i>Jabatan</a>
                         </li>
                         <li>
                             <a href="{{ route('units.index') }}"

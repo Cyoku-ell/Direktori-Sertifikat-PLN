@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -19,9 +21,27 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+
         'name',
+
+        'username',
+
         'email',
+
         'password',
+
+        'nip',
+
+        'perner',
+
+        'status',
+
+        'is_active',
+
+        'unit_id',
+
+        'position_id',
+
     ];
 
     /**
@@ -39,12 +59,31 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
 
-    public function certificates()
-{
-    return $this->hasMany(Certificate::class);
-}
+            'email_verified_at' => 'datetime',
+
+            'password' => 'hashed',
+
+            'is_active' => 'boolean',
+
+        ];
+    }
+
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class);
+    }
+
+    public function position(): BelongsTo
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class);
+    }
 }

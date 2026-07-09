@@ -18,8 +18,7 @@ class CertificateController extends Controller
     public function index()
     {
         return view('pages.data.index', [
-            'units' => Unit::orderBy('name')->get(),
-            'certifications' => Certification::orderBy('name')->get()
+            'units' => Unit::orderBy('name')->get()
         ]);
     }
     public function datatable(Request $request)

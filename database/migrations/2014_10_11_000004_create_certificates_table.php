@@ -12,32 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('certificates', function (Blueprint $table) {
-
             $table->id();
-
-            $table->string('name');
-
-            $table->string('nip');
-
-            $table->foreignId('unit_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
-
-            $table->foreignId('certification_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
-
-            $table->string('file');
-
             $table->foreignId('user_id')
+
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
+            $table->string('title');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->date('issue_date');
+            $table->string('certificate_number');
+            $table->string('registration_number')->nullable();
+            $table->string('institution');
+            $table->string('accreditor');
+            $table->string('pdf')->nullable();
             $table->text('remarks')->nullable();
-
             $table->timestamps();
         });
     }

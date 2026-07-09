@@ -9,21 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::create('units', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('positions', function (Blueprint $table) {
 
-        $table->string('name');
+            $table->id();
 
-        $table->timestamps();
-    });
-}
+            $table->string('name')->unique();
+
+            $table->timestamps();
+        });
+    }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('units');
+        Schema::dropIfExists('positions');
     }
 };
