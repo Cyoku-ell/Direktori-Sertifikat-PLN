@@ -1,11 +1,25 @@
-<a data-id="{{ $row->id }}" class="btnEdit bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded-md">
+<div class="flex gap-2">
 
-    <i class="fa fa-pen"></i>
+    <a class="btnEdit
+           bg-yellow-500 hover:bg-yellow-600
+           text-white px-2 py-1 rounded-md
+           cursor-pointer"
+        data-id="{{ $row->id }}">
+        <i class="fa fa-pen"></i>
+    </a>
+    @if (auth()->id() != $row->id)
+        <a data-id="{{ $row->id }}"
+            class="btnDelete
+           bg-red-500
+           hover:bg-red-600
+           text-white
+           px-2 py-1
+           rounded-md
+           cursor-pointer">
 
-</a>
+            <i class="fa fa-trash"></i>
 
-<a data-id="{{ $row->id }}" class="btnDelete bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-md ml-1">
+        </a>
+    @endif
 
-    <i class="fa fa-trash"></i>
-
-</a>
+</div>

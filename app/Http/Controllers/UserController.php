@@ -67,7 +67,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return response()->json($user);
+        $user->load('roles');
+
+        return response()->json([
+
+            'user' => $user,
+
+            'role' => $user->getRoleNames()->first(),
+
+        ]);
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -110,11 +118,20 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if (auth()->id() == $user->id) {
+
+            return response()->json([
+
+                'message' => 'Anda tidak dapat menghapus akun sendiri.'
+
+            ], 422);
+        }
+
         $user->delete();
 
         return response()->json([
 
-            'message' => 'Pegawai berhasil dihapus.',
+            'message' => 'Pegawai berhasil dihapus.'
 
         ]);
     }
@@ -126,7 +143,7 @@ class UserController extends Controller
             'position',
             'roles'
         ]);
-        
+
 
         return DataTables::of($query)
 
@@ -155,8 +172,79 @@ class UserController extends Controller
                 );
             })
 
-            ->rawColumns(['action'])
+            ->addColumn('active', function ($row) {
+
+                return view(
+                    'pages.user.partials.badge-active',
+                    [
+                        'user' => $row
+                    ]
+                );
+            })
+
+            ->editColumn('role', function ($row) {
+
+                return view(
+                    'pages.user.partials.badge-role',
+                    [
+                        'role' => $row->getRoleNames()->first()
+                    ]
+                );
+            })
+
+            ->editColumn('status', function ($row) {
+
+                return view(
+                    'pages.user.partials.badge-status',
+                    [
+                        'status' => $row->status
+                    ]
+                );
+            })
+
+            ->addColumn('active', function ($row) {
+
+                return view(
+                    'pages.user.partials.badge-active',
+                    [
+                        'user' => $row
+                    ]
+                );
+            })
+
+            ->rawColumns([
+                'status',
+                'role',
+                'active',
+                'action'
+            ])
 
             ->make(true);
+    }
+
+    public function toggleActive(User $user)
+    {
+        if ($user->id == auth()->id()) {
+
+            return response()->json([
+
+                'message' => 'Anda tidak dapat menonaktifkan akun sendiri.'
+
+            ], 422);
+        }
+
+        $user->update([
+
+            'is_active' => !$user->is_active
+
+        ]);
+
+        return response()->json([
+
+            'message' => $user->is_active
+                ? 'Akun berhasil diaktifkan.'
+                : 'Akun berhasil dinonaktifkan.'
+
+        ]);
     }
 }

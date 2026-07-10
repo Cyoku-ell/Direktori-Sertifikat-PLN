@@ -40,6 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::delete('/{user}', 'destroy')->name('destroy');
 
+            Route::patch('/{user}/toggle-active', 'toggleActive')
+                ->name('toggle-active');
         });
 
     Route::controller(CertificateController::class)

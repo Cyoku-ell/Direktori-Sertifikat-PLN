@@ -73,6 +73,8 @@
 
                         <th>Status</th>
 
+                        <th>Status Akun</th>
+
                         <th>Role</th>
 
                         <th class="px-5 py-4 text-center rounded-r-xl">
@@ -156,6 +158,11 @@
                     },
 
                     {
+                        data: 'active',
+                        name: 'is_active'
+                    },
+
+                    {
                         data: 'role',
                         name: 'roles.name'
                     },
@@ -171,9 +178,7 @@
 
             });
 
-            // ===============================
             // OPEN MODAL
-            // ===============================
 
             $('#btnAddUser').click(function() {
 
@@ -185,9 +190,7 @@
 
             });
 
-            // ===============================
             // CLOSE MODAL
-            // ===============================
 
             $('#closeUserModal').click(function() {
 
@@ -207,16 +210,13 @@
 
             });
 
-
             $('#searchInput').keyup(function() {
 
                 table.search($(this).val()).draw();
 
             });
 
-            // ===============================
             // SUBMIT FORM
-            // ===============================
 
             $('#userForm').submit(function(e) {
 
@@ -263,6 +263,233 @@
                         } else {
 
                             toastr.error('Terjadi kesalahan.');
+
+                        }
+
+                    }
+
+                });
+
+            });
+
+            // edit data
+
+            $(document).on('click', '.btnEdit', function() {
+
+                let id = $(this).data('id');
+
+                $.get('/users/' + id + '/edit', function(res) {
+
+                    let user = res.user;
+
+                    $('#edit_email').val(user.email);
+
+                    $('#edit_username').val(user.username);
+
+                    $('#editUserForm input[name=nip]').val(user.nip);
+
+                    $('#editUserForm input[name=perner]').val(user.perner);
+
+                    $('#editUserForm select[name=unit_id]').val(user.unit_id);
+
+                    $('#editUserForm select[name=position_id]').val(user.position_id);
+
+                    $('#editUserForm select[name=status]').val(user.status);
+
+                    $('#editUserForm select[name=role]').val(res.role);
+
+                    $('#editUserForm').attr(
+                        'action',
+                        '/users/' + user.id
+                    );
+
+                    $('#editUserModal').removeClass('hidden');
+
+                });
+
+            });
+
+            // Hapus data
+
+            $(document).on('click', '.btnDelete', function() {
+
+                let id = $(this).data('id');
+
+                Swal.fire({
+
+                    title: 'Hapus Pegawai?',
+
+                    text: "Data yang dihapus tidak dapat dikembalikan.",
+
+                    icon: 'warning',
+
+                    showCancelButton: true,
+
+                    confirmButtonColor: '#d33',
+
+                    cancelButtonColor: '#199db7',
+
+                    confirmButtonText: 'Ya, Hapus',
+
+                    cancelButtonText: 'Batal'
+
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+
+                            url: '/users/' + id,
+
+                            type: 'POST',
+
+                            data: {
+
+                                _token: "{{ csrf_token() }}",
+
+                                _method: "DELETE"
+
+                            },
+
+                            success: function(res) {
+
+                                toastr.success(res.message);
+
+                                table.ajax.reload(null, false);
+
+                            },
+
+                            error: function() {
+
+                                toastr.error('Gagal menghapus pegawai.');
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            });
+
+            // AKTIF/NOAKNTIF AKUN
+
+            $(document).on('click', '.toggleActive', function() {
+
+                let id = $(this).data('id');
+
+                Swal.fire({
+
+                    title: 'Ubah Status Akun?',
+
+                    text: 'Pegawai akan diaktifkan / dinonaktifkan.',
+
+                    icon: 'question',
+
+                    showCancelButton: true,
+
+                    confirmButtonText: 'Ya',
+
+                    cancelButtonText: 'Batal'
+
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+
+                            url: '/users/' + id + '/toggle-active',
+
+                            type: 'POST',
+
+                            data: {
+
+                                _token: "{{ csrf_token() }}",
+
+                                _method: 'PATCH'
+
+                            },
+
+                            success: function(res) {
+
+                                toastr.success(res.message);
+
+                                table.ajax.reload(null, false);
+
+                            },
+
+                            error: function(xhr) {
+
+                                toastr.error(xhr.responseJSON.message);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            });
+
+            // close modal edit
+
+            $('#closeEditUserModal').click(function() {
+
+                $('#editUserModal').addClass('hidden');
+
+                $('#editUserForm')[0].reset();
+
+                $('#edit_username').val('');
+
+            });
+
+            // edit email username keganti visual
+
+            $('#edit_email').on('keyup change', function() {
+
+                let username = $(this).val().split('@')[0];
+
+                $('#edit_username').val(username);
+
+            });
+
+            // ajax edit data
+
+            $('#editUserForm').submit(function(e) {
+
+                e.preventDefault();
+
+                let form = $(this);
+
+                $.ajax({
+
+                    url: form.attr('action'),
+
+                    type: "POST",
+
+                    data: form.serialize() + '&_method=PUT',
+
+                    success: function(res) {
+
+                        toastr.success(res.message);
+
+                        $('#editUserModal').addClass('hidden');
+
+                        table.ajax.reload(null, false);
+
+                    },
+
+                    error: function(xhr) {
+
+                        if (xhr.status == 422) {
+
+                            $.each(xhr.responseJSON.errors, function(k, v) {
+
+                                toastr.error(v[0]);
+
+                            });
 
                         }
 

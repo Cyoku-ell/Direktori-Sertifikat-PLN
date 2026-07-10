@@ -1,39 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* ==========================
+   DataTables Pagination
+========================== */
 
 .dataTables_paginate {
-    margin-top: 20px;
+    margin-top: 24px !important;
+    display: flex;
+    justify-content: end;
 }
 
 .dataTables_paginate .paginate_button {
+    margin: 0 4px !important;
+    border-radius: 10px !important;
+    border: 1px solid #d1d5db !important;
+    background: white !important;
+    color: #146379 !important;
     padding: 8px 14px !important;
-    margin: 0 4px;
-    border-radius: 1px;
-    border: none !important;
-    background: #f3f4f6 !important;
-    color: #374151 !important;
-    cursor: pointer;
-
-
-
-
-
-
     transition: 0.2s;
 }
 
 .dataTables_paginate .paginate_button:hover {
     background: #199db7 !important;
     color: white !important;
+    border-color: #199db7 !important;
 }
 
 .dataTables_paginate .paginate_button.current {
     background: #199db7 !important;
     color: white !important;
+    border-color: #199db7 !important;
 }
 
 .dataTables_paginate .paginate_button.disabled {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
 }

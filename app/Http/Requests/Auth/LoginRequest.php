@@ -40,7 +40,11 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
+        if (! Auth::attempt(
+            $this->only('username', 'password'),
+            $this->boolean('remember')
+        )) {
+
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -48,9 +52,18 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Cek apakah akun aktif
+        if (! Auth::user()->is_active) {
+
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'username' => 'Akun Anda telah dinonaktifkan. Silakan hubungi Administrator.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
-
     /**
      * Ensure the login request is not rate limited.
      *
