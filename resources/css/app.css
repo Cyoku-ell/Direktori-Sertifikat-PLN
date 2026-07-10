@@ -1,9 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* ==========================
-   DataTables Pagination
-========================== */
+
+/*  DataTables Pagination */
 
 .dataTables_paginate {
     margin-top: 24px !important;
