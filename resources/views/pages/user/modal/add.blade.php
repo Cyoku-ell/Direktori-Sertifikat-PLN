@@ -1,29 +1,39 @@
-<div id="addUserModal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center overflow-y-auto">
+<div id="addUserModal"
+    class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/50 p-4">
 
-    <div class="bg-white rounded-3xl shadow-xl w-full max-w-4xl my-10">
+    <div class="flex min-h-full items-center justify-center">
+
+        <div
+            class="relative flex w-full max-w-[900px] max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
 
         {{-- Header --}}
-        <div class="border-b px-8 py-5">
+        <div
+            class="flex items-start justify-between border-b border-slate-200 px-7 py-5 shrink-0">
 
-            <h2 class="text-2xl font-bold text-[#146379]">
+            <div>
 
-                Tambah Pegawai
+                <h2 class="text-xl font-semibold text-slate-800">
 
-            </h2>
+                    Tambah Pegawai
 
-            <p class="text-gray-500 text-sm mt-1">
+                </h2>
 
-                Tambahkan akun pegawai baru.
+                <p class="mt-1 text-sm text-slate-500">
 
-            </p>
+                    Tambahkan akun pegawai baru ke sistem.
+
+                </p>
+
+            </div>
 
         </div>
 
-        <form id="userForm" action="{{ route('users.store') }}" method="POST">
+        <form id="userForm" action="{{ route('users.store') }}" method="POST"
+            class="flex flex-col flex-1 min-h-0">
 
             @csrf
 
-            <div class="p-8 space-y-8">
+            <div class="flex-1 overflow-y-auto px-7 py-6 space-y-6">
 
                 {{-- ========================= --}}
                 {{-- Informasi Pegawai --}}
@@ -31,18 +41,34 @@
 
                 <div>
 
-                    <h3 class="font-semibold text-[#146379] text-lg mb-5">
+                    <div class="flex items-center gap-3 pb-4 border-b border-slate-200 mb-6">
 
-                        Informasi Pegawai
+                    <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
 
-                    </h3>
+                        <i class="fa-solid fa-user text-[#199db7]"></i>
 
-                    <div class="grid grid-cols-2 gap-5">
+                    </div>
+
+                    <div>
+
+                        <h3 class="text-base font-semibold text-[#146379]">
+                            Informasi Pegawai
+                        </h3>
+
+                        <p class="text-sm text-slate-500">
+                            Masukkan informasi pegawai.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                      <div class="grid grid-cols-2 gap-x-6 gap-y-5">
 
                         {{-- Username --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 Username
 
@@ -56,20 +82,20 @@
                         {{-- Email --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 Email
 
                             </label>
 
-                            <input id="email" name="email" type="email" class="w-full mt-2 rounded-xl">
+                            <input id="email" name="email" type="email" class="w-full h-11 rounded-xl border border-slate-300 bg-white px-4 text-sm shadow-sm transition focus:border-[#199db7] focus:ring-2 focus:ring-[#199db7]/20">
 
                         </div>
 
                         {{-- NIP --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 NIP
 
@@ -82,7 +108,7 @@
                         {{-- PERNER --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 PERNER
 
@@ -102,18 +128,34 @@
 
                 <div>
 
-                    <h3 class="font-semibold text-[#146379] text-lg mb-5">
+                  <div class="flex items-center gap-3 pb-4 border-b border-slate-200 mb-6">
 
-                        Informasi Organisasi
+                    <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
 
-                    </h3>
+                        <i class="fa-solid fa-building text-[#199db7]"></i>
 
-                    <div class="grid grid-cols-2 gap-5">
+                    </div>
+
+                    <div>
+
+                        <h3 class="text-base font-semibold text-[#146379]">
+                            Informasi Organisasi
+                        </h3>
+
+                        <p class="text-sm text-slate-500">
+                            Tentukan unit dan jabatan pegawai.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-5">
 
                         {{-- Unit --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 Unit
 
@@ -142,7 +184,7 @@
                         {{-- Jabatan --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 Jabatan
 
@@ -171,7 +213,7 @@
                         {{-- Status --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 Status
 
@@ -210,7 +252,7 @@
                         {{-- Role --}}
                         <div>
 
-                            <label class="font-medium">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
 
                                 Role
 
@@ -244,17 +286,33 @@
 
                 <div>
 
-                    <h3 class="font-semibold text-[#146379] text-lg mb-5">
+                 <div class="flex items-center gap-3 pb-4 border-b border-slate-200 mb-6">
 
-                        Keamanan
+                    <div class="w-10 h-10 rounded-xl bg-cyan-50 flex items-center justify-center">
 
-                    </h3>
+                        <i class="fa-solid fa-lock text-[#199db7]"></i>
 
-                    <div class="grid grid-cols-2 gap-5">
+                    </div>
+
+                    <div>
+
+                        <h3 class="text-base font-semibold text-[#146379]">
+                            Keamanan
+                        </h3>
+
+                        <p class="text-sm text-slate-500">
+                            Tentukan password awal akun.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-5">
 
                         <div>
 
-                            <label class="font-medium">
+                            <labelclass="block text-sm font-medium text-slate-700 mb-2">
 
                                 Password
 
