@@ -62,6 +62,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('update');
             Route::delete('/{certificate}', 'destroy')
                 ->name('destroy');
+            Route::get('/check-owner/{perner}', 'checkOwner')
+                ->name('check-owner');
         });
 });
 

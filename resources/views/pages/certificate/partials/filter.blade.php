@@ -1,86 +1,75 @@
-<div class="flex items-center gap-3 mt-4">
+<div class="flex flex-wrap gap-3 mb-6">
 
-    {{-- UNIT --}}
-    <div class="relative">
+    <select id="filterStatus" class="rounded-xl border-gray-300">
 
-        <button type="button" data-target="#unitDropdown"
-            class="filter-btn flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7] shadow-sm border
-                          border-[#199db7] transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7]">
+        <option value="">
 
-            Unit
+            Semua Status
 
-            <i class="fa fa-chevron-down dropdown-arrow text-xs"></i>
+        </option>
 
-        </button>
+        <option value="active">
 
-        <div id="unitDropdown"
-            class="filter-dropdown hidden absolute mt-2 w-56 bg-white rounded-xl shadow-lg border z-50">
+            Berlaku
 
-            <ul class="py-2">
+        </option>
 
-                <li class="unit-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="">
+        <option value="warning">
 
-                    Semua Unit
+            Hampir Expired
 
-                </li>
+        </option>
 
-                @foreach ($units as $unit)
-                    <li class="unit-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="{{ $unit->id }}">
+        <option value="expired">
 
-                        {{ $unit->name }}
+            Expired
 
-                    </li>
-                @endforeach
+        </option>
 
-            </ul>
+    </select>
 
-        </div>
+    <select id="filterOwner" class="rounded-xl border-gray-300">
 
-    </div>
+        <option value="">
 
+            Semua Pemilik
 
-    {{-- CERTIFICATION --}}
-    <div class="relative">
+        </option>
 
-        <button type="button" data-target="#certificationDropdown"
-            class="filter-btn flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7] shadow-sm border
-                          border-[#199db7] transition transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white hover:bg-[#199db7]">
+        <option value="matched">
 
-            Sertifikasi
+            Sudah Match
 
-            <i class="fa fa-chevron-down dropdown-arrow text-xs"></i>
+        </option>
 
-        </button>
+        <option value="unmatched">
 
-        <div id="certificationDropdown"
-            class="filter-dropdown hidden absolute mt-2 w-56 bg-white rounded-xl shadow-lg border z-50">
+            Belum Match
 
-            <ul class="py-2">
+        </option>
 
-                <li class="certification-option px-4 py-2 hover:bg-gray-100 cursor-pointer" data-value="">
+    </select>
 
-                    Semua Sertifikasi
+    <select id="filterPdf" class="rounded-xl border-gray-300">
 
-                </li>
+        <option value="">
 
-                @foreach ($certifications as $certification)
-                    <li class="certification-option px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        data-value="{{ $certification->id }}">
+            Semua PDF
 
-                        {{ $certification->name }}
+        </option>
 
-                    </li>
-                @endforeach
+        <option value="uploaded">
 
-            </ul>
+            Sudah Upload
 
-        </div>
+        </option>
 
-    </div>
+        <option value="empty">
 
-</div>
+            Belum Upload
 
-{{-- Active Filter --}}
-<div id="activeFilters" class="flex flex-wrap gap-2 mt-3">
+        </option>
+
+    </select>
 
 </div>

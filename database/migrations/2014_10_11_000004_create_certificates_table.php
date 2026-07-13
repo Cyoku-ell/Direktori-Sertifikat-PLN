@@ -14,12 +14,25 @@ return new class extends Migration
         Schema::create('certificates', function (Blueprint $table) {
 
             $table->id();
+
+            /*
+    |--------------------------------------------------------------------------
+    | Owner
+    |--------------------------------------------------------------------------
+    */
+
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();
 
             $table->string('perner')->index();
+
+            /*
+    |--------------------------------------------------------------------------
+    | Certificate Information
+    |--------------------------------------------------------------------------
+    */
 
             $table->string('title');
 
@@ -31,23 +44,55 @@ return new class extends Migration
 
             $table->string('accreditor');
 
+            /*
+    |--------------------------------------------------------------------------
+    | Dates
+    |--------------------------------------------------------------------------
+    */
+
+            // dari excel
             $table->date('issue_date');
 
+            // optional
             $table->date('start_date')->nullable();
 
             $table->date('end_date')->nullable();
 
+            // masa berlaku sertifikat
+            $table->date('expired_at')->nullable();
+
+            /*
+    |--------------------------------------------------------------------------
+    | File
+    |--------------------------------------------------------------------------
+    */
+
             $table->string('pdf')->nullable();
 
+            /*
+    |--------------------------------------------------------------------------
+    | Status
+    |--------------------------------------------------------------------------
+    */
 
-            // hasil matching owner
+            // apakah owner sudah ditemukan
             $table->boolean('is_matched')
                 ->default(false);
 
-    
+            /*
+    |--------------------------------------------------------------------------
+    | Notes
+    |--------------------------------------------------------------------------
+    */
+
             $table->text('remarks')->nullable();
 
-            // admin yang upload
+            /*
+    |--------------------------------------------------------------------------
+    | Audit
+    |--------------------------------------------------------------------------
+    */
+
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users')

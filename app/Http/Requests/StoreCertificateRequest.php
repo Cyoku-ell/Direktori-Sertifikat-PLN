@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Certificate;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,36 +15,95 @@ class StoreCertificateRequest extends FormRequest
     {
         return [
 
-            'name' => 'required|string|max:255',
+            // ===========================
+            // Owner
+            // ===========================
 
-            'nip' => 'required|string|max:30',
+            'perner' => [
+                'required',
+                'string',
+                'max:50',
+            ],
 
-            'unit_id' => 'required|exists:units,id',
+            // ===========================
+            // Certificate
+            // ===========================
 
-            'certification_id' => 'required|exists:certifications,id',
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
-            'file' => 'required|mimes:pdf|max:5120',
+            'certificate_number' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:certificates,certificate_number',
+            ],
 
-        ];
-    }
+            'registration_number' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
 
-    public function messages()
-    {
-        return [
+            'institution' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
-            'name.required' => 'Nama wajib diisi.',
+            'accreditor' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
-            'nip.required' => 'NIP wajib diisi.',
+            // ===========================
+            // Date
+            // ===========================
 
-            'unit_id.required' => 'Pilih unit.',
+            'issue_date' => [
+                'required',
+                'date',
+            ],
 
-            'certification_id.required' => 'Pilih sertifikasi.',
+            'start_date' => [
+                'nullable',
+                'date',
+            ],
 
-            'file.required' => 'Upload PDF.',
+            'end_date' => [
+                'nullable',
+                'date',
+            ],
 
-            'file.mimes' => 'File harus PDF.',
+            'expired_at' => [
+                'nullable',
+                'date',
+                'after_or_equal:issue_date',
+            ],
 
-            'file.max' => 'Ukuran maksimal 5 MB.'
+            // ===========================
+            // File
+            // ===========================
+
+            'pdf' => [
+                'nullable',
+                'file',
+                'mimes:pdf',
+                'max:10240',
+            ],
+
+            // ===========================
+            // Remarks
+            // ===========================
+
+            'remarks' => [
+                'nullable',
+                'string',
+            ],
 
         ];
     }
