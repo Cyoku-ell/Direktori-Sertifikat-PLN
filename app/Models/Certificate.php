@@ -14,13 +14,9 @@ class Certificate extends Model
 
         'user_id',
 
+        'perner',
+
         'title',
-
-        'start_date',
-
-        'end_date',
-
-        'issue_date',
 
         'certificate_number',
 
@@ -30,9 +26,21 @@ class Certificate extends Model
 
         'accreditor',
 
-        'pdf',
+        'issue_date',
+
+        'start_date',
+
+        'end_date',
+
+        'expired_at',
 
         'remarks',
+
+        'pdf',
+
+        'created_by',
+
+        'is_matched',
 
     ];
 

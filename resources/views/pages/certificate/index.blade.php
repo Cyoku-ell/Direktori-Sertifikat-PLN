@@ -86,7 +86,7 @@
 
                 </thead>
 
-                <tbody>
+                <tbody class="bg-white rounded-b-3xl">
 
                 </tbody>
 
@@ -200,7 +200,69 @@
 
             });
 
+            // submit add
+
+            $('#certificateForm').submit(function(e) {
+
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+
+                    url: "{{ route('certificates.store') }}",
+
+                    type: "POST",
+
+                    data: formData,
+
+                    processData: false,
+
+                    contentType: false,
+
+                    success: function(res) {
+
+                        toastr.success(res.message);
+
+                        $('#addCertificateModal').addClass('hidden');
+
+                        $('#certificateForm')[0].reset();
+
+                        $('#ownerCard').addClass('hidden');
+
+                        $('#pdfPreview').addClass('hidden');
+
+                        table.ajax.reload(null, false);
+
+                    },
+
+                    error: function(xhr) {
+
+                        if (xhr.status == 422) {
+
+                            $.each(xhr.responseJSON.errors, function(k, v) {
+
+                                toastr.error(v[0]);
+
+                            });
+
+                        } else {
+
+                            toastr.error('Terjadi kesalahan.');
+
+                            console.log(xhr);
+
+                        }
+
+                    }
+
+                });
+
+            });
+
+
         });
+
 
         // preview pdf
         $('#pdf').change(function() {
@@ -343,6 +405,5 @@
             });
 
         }
-
     </script>
 @endsection

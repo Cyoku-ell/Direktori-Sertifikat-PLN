@@ -658,23 +658,22 @@
                         <div class="flex gap-3">
 
                             <button type="button" id="closeCertificateModal"
-                                class="px-6 py-2.5
-                rounded-xl
-                border
-                hover:bg-gray-100
-                transition">
+                                class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-red-500
+                    shadow-sm border border-red-500
+                    transition transform duration-200 ease-out
+                    hover:scale-110 hover:shadow-md
+                    hover:text-white hover:bg-red-500">
 
                                 Batal
 
                             </button>
 
                             <button type="submit"
-                                class="px-6 py-2.5
-                rounded-xl
-                bg-[#199db7]
-                hover:bg-[#146379]
-                text-white
-                transition">
+                                class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7]
+                    shadow-sm border border-[#199db7]
+                    transition transform duration-200 ease-out
+                    hover:scale-110 hover:shadow-md
+                    hover:text-white hover:bg-[#199db7]">
 
                                 <i class="fa-solid fa-floppy-disk mr-2"></i>
 

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCertificateRequest;
 use App\Models\Certificate;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
-use App\Models\User;
 
 class CertificateController extends Controller
 {
@@ -74,11 +77,79 @@ class CertificateController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(StoreCertificateRequest $request)
     {
-        //
-    }
+        DB::beginTransaction();
 
+        try {
+
+            $user = User::where('perner', $request->perner)->first();
+
+            $pdf = null;
+
+            if ($request->hasFile('pdf')) {
+
+                $pdf = $request
+                    ->file('pdf')
+                    ->store('certificates', 'public');
+            }
+
+            Certificate::create([
+
+                'user_id' => $user?->id,
+
+                'perner' => $request->perner,
+
+                'title' => $request->title,
+
+                'certificate_number' => $request->certificate_number,
+
+                'registration_number' => $request->registration_number,
+
+                'institution' => $request->institution,
+
+                'accreditor' => $request->accreditor,
+
+                'issue_date' => $request->issue_date,
+
+                'start_date' => $request->start_date,
+
+                'end_date' => $request->end_date,
+
+                'expired_at' => $request->expired_at,
+
+                'remarks' => $request->remarks,
+
+                'pdf' => $pdf,
+
+                'created_by' => auth()->id(),
+
+                'is_matched' => $user ? true : false,
+
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+
+                'success' => true,
+
+                'message' => 'Sertifikat berhasil ditambahkan.'
+
+            ]);
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ], 500);
+        }
+    }
     public function edit(Certificate $certificate)
     {
         //
