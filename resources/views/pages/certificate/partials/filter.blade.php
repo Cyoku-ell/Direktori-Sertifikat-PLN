@@ -1,75 +1,258 @@
-<div class="flex flex-wrap gap-3 mb-6">
+{{-- ====================================================== --}}
+{{-- ACTIVE FILTER --}}
+{{-- ====================================================== --}}
 
-    <select id="filterStatus" class="rounded-xl border-gray-300">
+<div id="activeFilters" class="flex flex-wrap gap-2 mb-4"></div>
 
-        <option value="">
+{{-- ====================================================== --}}
+{{-- FILTER TOP --}}
+{{-- ====================================================== --}}
 
-            Semua Status
+<div class="flex flex-wrap items-center gap-3 mb-6">
 
-        </option>
+    {{-- ====================================================== --}}
+    {{-- SINKRONISASI --}}
+    {{-- ====================================================== --}}
 
-        <option value="active">
+    <div class="relative inline-block">
 
-            Berlaku
+        <button type="button" data-target="#filterSyncDropdown"
+            class="filter-btn
+            flex items-center gap-2
+            px-4 py-2
+            bg-white
+            rounded-lg
+            text-sm
+            font-medium
+            text-gray-600
+            shadow-sm
+            border
+            border-gray-300
+            transition
+            transform
+            duration-200
+            ease-out
+            hover:scale-110
+            hover:shadow-md
+            hover:text-white
+            hover:bg-[#199db7]">
 
-        </option>
+            Sinkronisasi
 
-        <option value="warning">
+            <svg class="dropdown-arrow w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
 
-            Hampir Expired
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
 
-        </option>
+            </svg>
 
-        <option value="expired">
+        </button>
 
-            Expired
+        <div id="filterSyncDropdown"
+            class="filter-dropdown
+            hidden
+            absolute
+            left-0
+            mt-2
+            w-52
+            bg-white
+            rounded-xl
+            shadow-xl
+            border
+            border-gray-200
+            overflow-hidden
+            z-50">
 
-        </option>
+            <ul class="text-sm text-gray-700">
 
-    </select>
+                <li class="sync-option px-4 py-3 hover:bg-gray-100 cursor-pointer" data-value="">
 
-    <select id="filterOwner" class="rounded-xl border-gray-300">
+                    Semua
 
-        <option value="">
+                </li>
 
-            Semua Pemilik
+                <li class="sync-option px-4 py-3 hover:bg-gray-100 cursor-pointer" data-value="1">
 
-        </option>
+                    Sinkron
 
-        <option value="matched">
+                </li>
 
-            Sudah Match
+                <li class="sync-option px-4 py-3 hover:bg-gray-100 cursor-pointer" data-value="0">
 
-        </option>
+                    Belum Sinkron
 
-        <option value="unmatched">
+                </li>
 
-            Belum Match
+            </ul>
 
-        </option>
+        </div>
 
-    </select>
+    </div>
 
-    <select id="filterPdf" class="rounded-xl border-gray-300">
+    {{-- ====================================================== --}}
+    {{-- DOKUMEN PDF --}}
+    {{-- ====================================================== --}}
 
-        <option value="">
+    <div class="relative inline-block">
 
-            Semua PDF
+        <button type="button" data-target="#filterPdfDropdown"
+            class="filter-btn
+            flex items-center gap-2
+            px-4 py-2
+            bg-white
+            rounded-lg
+            text-sm
+            font-medium
+            text-gray-600
+            shadow-sm
+            border
+            border-gray-300
+            transition
+            transform
+            duration-200
+            ease-out
+            hover:scale-110
+            hover:shadow-md
+            hover:text-white
+            hover:bg-[#199db7]">
 
-        </option>
+            Dokumen PDF
 
-        <option value="uploaded">
+            <svg class="dropdown-arrow w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
 
-            Sudah Upload
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
 
-        </option>
+            </svg>
 
-        <option value="empty">
+        </button>
 
-            Belum Upload
+        <div id="filterPdfDropdown"
+            class="filter-dropdown
+            hidden
+            absolute
+            left-0
+            mt-2
+            w-52
+            bg-white
+            rounded-xl
+            shadow-xl
+            border
+            border-gray-200
+            overflow-hidden
+            z-50">
 
-        </option>
+            <ul class="text-sm text-gray-700">
 
-    </select>
+                <li class="pdf-option px-4 py-3 hover:bg-gray-100 cursor-pointer" data-value="">
+
+                    Semua
+
+                </li>
+
+                <li class="pdf-option px-4 py-3 hover:bg-gray-100 cursor-pointer" data-value="1">
+
+                    Sudah Upload
+
+                </li>
+
+                <li class="pdf-option px-4 py-3 hover:bg-gray-100 cursor-pointer" data-value="0">
+
+                    Belum Upload
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    {{-- ====================================================== --}}
+    {{-- UNIT --}}
+    {{-- ====================================================== --}}
+
+    <div class="relative inline-block">
+
+        <button type="button" data-target="#filterUnitDropdown"
+            class="filter-btn
+            flex items-center gap-2
+            px-4 py-2
+            bg-white
+            rounded-lg
+            text-sm
+            font-medium
+            text-gray-600
+            shadow-sm
+            border
+            border-gray-300
+            transition
+            transform
+            duration-200
+            ease-out
+            hover:scale-110
+            hover:shadow-md
+            hover:text-white
+            hover:bg-[#199db7]">
+
+            Unit
+
+            <svg class="dropdown-arrow w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+
+            </svg>
+
+        </button>
+
+        <div id="filterUnitDropdown"
+            class="filter-dropdown
+            hidden
+            absolute
+            left-0
+            mt-2
+            w-64
+            bg-white
+            rounded-xl
+            shadow-xl
+            border
+            border-gray-200
+            overflow-hidden
+            z-50">
+
+            <ul class="text-sm text-gray-700 max-h-72 overflow-y-auto">
+
+                <li class="unit-option
+                    px-4
+                    py-3
+                    hover:bg-gray-100
+                    cursor-pointer"
+                    data-value="">
+
+                    Semua Unit
+
+                </li>
+
+                @foreach ($units as $unit)
+                    <li class="unit-option
+                        px-4
+                        py-3
+                        hover:bg-gray-100
+                        cursor-pointer"
+                        data-value="{{ $unit->id }}">
+
+                        {{ $unit->name }}
+
+                    </li>
+                @endforeach
+
+            </ul>
+
+        </div>
+
+    </div>
 
 </div>
+
+
