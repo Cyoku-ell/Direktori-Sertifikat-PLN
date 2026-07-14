@@ -167,19 +167,18 @@
 
                             <h4 class="font-semibold">
 
-                                {{ $certificate->name }}
-
+                                
                             </h4>
 
                             <p class="text-sm text-gray-500">
 
-                                {{ $certificate->certification->name }}
+                                
 
                             </p>
 
                             <p class="text-xs text-gray-400">
 
-                                {{ $certificate->unit->name }}
+                             
 
                             </p>
 

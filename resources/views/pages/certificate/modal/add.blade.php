@@ -15,33 +15,34 @@
             {{-- HEADER --}}
             {{-- ========================= --}}
 
-            <div
-                class="px-8 py-6
-                border-b
-                bg-white
-                rounded-t-[30px]
-                shrink-0">
+            <div class="px-8 py-6
+    border-b
+    bg-white
+    rounded-t-[30px]
+    shrink-0">
 
-                <h2 class="text-2xl
-                    font-bold
-                    text-[#146379]">
+                <h2 id="certificateModalTitle" class="text-2xl
+        font-bold
+        text-[#146379]">
 
                     Tambah Sertifikat
 
                 </h2>
 
-                <p class="text-gray-500 mt-1">
+                <p id="certificateModalSubtitle" class="text-gray-500 mt-1">
 
                     Tambahkan data sertifikat pegawai PLN.
 
                 </p>
 
             </div>
-
-            <form id="certificateForm" action="{{ route('certificates.store') }}" method="POST"
-                enctype="multipart/form-data" class="flex flex-col flex-1">
+            <form id="certificateForm" method="POST" enctype="multipart/form-data" class="flex flex-col flex-1">
 
                 @csrf
+
+                <input type="hidden" id="certificate_id" value="">
+
+                <input type="hidden" id="formMode" value="create">
 
                 {{-- ========================= --}}
                 {{-- BODY --}}
@@ -352,7 +353,8 @@
 
                                 </label>
 
-                                <input id="issue_date" type="date" name="issue_date" class="w-full mt-2 rounded-xl">
+                                <input id="issue_date" type="date" name="issue_date"
+                                    class="w-full mt-2 rounded-xl">
 
                             </div>
 
@@ -490,6 +492,45 @@
                                     Upload file PDF sertifikat (maksimal 10 MB).
 
                                 </p>
+
+                            </div>
+
+                        </div>
+
+                        <div id="currentPdf" class="hidden mb-5">
+
+                            <div class="rounded-xl
+        border
+        bg-white
+        p-4">
+
+                                <div class="flex items-center">
+
+                                    <i
+                                        class="fa-solid fa-file-pdf
+                text-red-500
+                text-3xl"></i>
+
+                                    <div class="ml-4 flex-1">
+
+                                        <p class="font-semibold">
+
+                                            Dokumen saat ini
+
+                                        </p>
+
+                                        <a id="currentPdfLink" href="#" target="_blank"
+                                            class="text-[#199db7]
+                    hover:underline
+                    text-sm">
+
+                                            Lihat PDF
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -637,7 +678,6 @@
                 {{-- ====================================================== --}}
                 {{-- FOOTER --}}
                 {{-- ====================================================== --}}
-
                 <div class="shrink-0
     border-t
     bg-white
@@ -647,7 +687,7 @@
 
                     <div class="flex justify-between items-center">
 
-                        <div class="text-sm text-gray-500">
+                        <div id="certificateFooterInfo" class="text-sm text-gray-500">
 
                             <i class="fa-solid fa-circle-info mr-2 text-[#199db7]"></i>
 
@@ -657,27 +697,61 @@
 
                         <div class="flex gap-3">
 
+                            {{-- Cancel --}}
                             <button type="button" id="closeCertificateModal"
-                                class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-red-500
-                    shadow-sm border border-red-500
-                    transition transform duration-200 ease-out
-                    hover:scale-110 hover:shadow-md
-                    hover:text-white hover:bg-red-500">
+                                class="flex items-center gap-2
+                px-4 py-2
+                bg-white
+                rounded-lg
+                text-sm
+                font-medium
+                text-red-500
+                border
+                border-red-500
+                shadow-sm
+                transition
+                transform
+                duration-200
+                ease-out
+                hover:scale-110
+                hover:shadow-md
+                hover:text-white
+                hover:bg-red-500">
+
+                                <i class="fa-solid fa-xmark"></i>
 
                                 Batal
 
                             </button>
 
-                            <button type="submit"
-                                class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7]
-                    shadow-sm border border-[#199db7]
-                    transition transform duration-200 ease-out
-                    hover:scale-110 hover:shadow-md
-                    hover:text-white hover:bg-[#199db7]">
+                            {{-- Submit --}}
+                            <button id="submitCertificateBtn" type="submit"
+                                class="flex items-center gap-2
+                px-4 py-2
+                bg-white
+                rounded-lg
+                text-sm
+                font-medium
+                text-[#199db7]
+                border
+                border-[#199db7]
+                shadow-sm
+                transition
+                transform
+                duration-200
+                ease-out
+                hover:scale-110
+                hover:shadow-md
+                hover:text-white
+                hover:bg-[#199db7]">
 
-                                <i class="fa-solid fa-floppy-disk mr-2"></i>
+                                <i id="submitCertificateIcon" class="fa-solid fa-floppy-disk"></i>
 
-                                Simpan Sertifikat
+                                <span id="submitCertificateText">
+
+                                    Simpan Sertifikat
+
+                                </span>
 
                             </button>
 
@@ -686,7 +760,6 @@
                     </div>
 
                 </div>
-
             </form>
 
         </div>

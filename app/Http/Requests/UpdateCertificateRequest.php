@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCertificateRequest extends FormRequest
 {
@@ -15,15 +16,51 @@ class UpdateCertificateRequest extends FormRequest
     {
         return [
 
-            'name' => 'required|string|max:255',
+            'perner' => 'required|string',
 
-            'nip' => 'required|string|max:50',
+            'title' => 'required|string|max:255',
 
-            'unit_id' => 'required|exists:units,id',
+            'certificate_number' => [
 
-            'certification_id' => 'required|exists:certifications,id',
+                'required',
 
-            'file' => 'nullable|mimes:pdf|max:5120',
+                'string',
+
+                Rule::unique('certificates', 'certificate_number')
+                    ->ignore($this->route('certificate')->id),
+
+            ],
+
+            'registration_number' => 'nullable|string',
+
+            'institution' => 'required|string|max:255',
+
+            'accreditor' => 'required|string|max:255',
+
+            'issue_date' => 'required|date',
+
+            'start_date' => 'nullable|date',
+
+            'end_date' => 'nullable|date',
+
+            'expired_at' => 'nullable|date|after_or_equal:issue_date',
+
+            'remarks' => 'nullable|string',
+
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+
+            'certificate_number.unique' =>
+            'Nomor sertifikat sudah digunakan.',
+
+            'expired_at.after_or_equal' =>
+            'Tanggal expired harus setelah tanggal terbit.',
 
         ];
     }

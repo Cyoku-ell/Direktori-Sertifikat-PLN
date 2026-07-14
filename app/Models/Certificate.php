@@ -46,11 +46,13 @@ class Certificate extends Model
 
     protected $casts = [
 
+        'issue_date' => 'date',
+
         'start_date' => 'date',
 
         'end_date' => 'date',
 
-        'issue_date' => 'date',
+        'expired_at' => 'date',
 
     ];
 

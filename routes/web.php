@@ -44,26 +44,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('toggle-active');
         });
 
-    Route::controller(CertificateController::class)
-        ->prefix('certificates')
+    Route::prefix('certificates')
         ->name('certificates.')
+        ->controller(CertificateController::class)
         ->group(function () {
-            Route::get('/', 'index')
-                ->name('index');
-            Route::get('/datatable', 'datatable')
-                ->name('datatable');
-            Route::post('/', 'store')
-                ->name('store');
-            Route::get('/{certificate}', 'show')
-                ->name('show');
-            Route::get('/{certificate}/edit', 'edit')
-                ->name('edit');
-            Route::put('/{certificate}', 'update')
-                ->name('update');
-            Route::delete('/{certificate}', 'destroy')
-                ->name('destroy');
-            Route::get('/check-owner/{perner}', 'checkOwner')
-                ->name('check-owner');
+            Route::get('/', 'index')->name('index');
+            Route::get('/datatable', 'datatable')->name('datatable');
+            Route::get('/check-owner/{perner}', 'checkOwner')->name('check-owner');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{certificate}', 'show')->name('show');
+            Route::get('/{certificate}/edit', 'edit')->name('edit');
+            Route::put('/{certificate}', 'update')->name('update');
+            Route::delete('/{certificate}', 'destroy')->name('destroy');
         });
 });
 
