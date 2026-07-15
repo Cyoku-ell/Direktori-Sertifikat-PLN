@@ -37,6 +37,30 @@
 
                 </button>
 
+                <button id="btnImportCertificate"
+                    class="flex items-center gap-2
+    px-4 py-2
+    bg-white
+    rounded-lg
+    text-sm
+    font-medium
+    text-green-600
+    shadow-sm
+    border
+    border-green-500
+    transition
+    transform
+    duration-200
+    hover:scale-110
+    hover:text-white
+    hover:bg-green-500">
+
+                    <i class="fa-solid fa-file-import"></i>
+
+                    Import Excel
+
+                </button>
+
             </div>
 
         </div>
@@ -99,7 +123,7 @@
     {{-- Modal --}}
     @include('pages.certificate.modal.add')
 
-    @include('pages.certificate.modal.edit')
+    @include('pages.certificate.modal.import')
 @endsection
 
 @section('script')
@@ -207,10 +231,10 @@
             });
 
             /*
-    |--------------------------------------------------------------------------
-    | ACTIVE FILTER
-    |--------------------------------------------------------------------------
-    */
+            |--------------------------------------------------------------------------
+            | ACTIVE FILTER
+            |--------------------------------------------------------------------------
+            */
 
             renderActiveFilters();
 
@@ -493,6 +517,175 @@
                 $('#addCertificateModal').addClass('hidden');
 
             });
+
+            $('#btnImportCertificate').click(function() {
+
+                $('#importCertificateModal').removeClass('hidden');
+
+            });
+
+            $('#closeImportModal').click(function() {
+
+                $('#importCertificateModal').addClass('hidden');
+
+            });
+
+            $('#importCertificateForm').submit(function(e) {
+
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+
+                    url: "{{ route('certificates.import') }}",
+
+                    type: "POST",
+
+                    data: formData,
+
+                    processData: false,
+
+                    contentType: false,
+
+                    beforeSend: function() {
+
+                        $('#btnImportSubmit')
+                            .prop('disabled', true)
+                            .html(`
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    Mengimpor...
+                `);
+
+                    },
+
+                    success: function(res) {
+
+                        toastr.success(res.message);
+
+                        table.ajax.reload(null, false);
+
+                        $('#importCertificateModal').addClass('hidden');
+
+                        $('#importCertificateForm')[0].reset();
+
+                        $('#btnImportSubmit')
+                            .prop('disabled', false)
+                            .html(`
+                    <i class="fa-solid fa-file-import mr-2"></i>
+                    Import Excel
+                `);
+
+                        Swal.fire({
+
+                            icon: 'success',
+
+                            title: 'Import Selesai',
+
+                            html: `
+
+                    <div class="text-left mt-4 space-y-2">
+
+                        <div>✅ Berhasil : <b>${res.summary.success}</b></div>
+
+                        <div>⚠️ Duplikat : <b>${res.summary.duplicate}</b></div>
+
+                        <div>❌ Gagal : <b>${res.summary.failed}</b></div>
+
+                        <div>👤 Belum Sinkron : <b>${res.summary.unmatched}</b></div>
+
+                        <div>🏢 Unit Baru : <b>${res.summary.new_units}</b></div>
+
+                        <div>💼 Jabatan Baru : <b>${res.summary.new_positions}</b></div>
+
+                    </div>
+
+                `
+
+                        });
+
+                    },
+
+                    error: function(xhr) {
+
+                        $('#btnImportSubmit')
+                            .prop('disabled', false)
+                            .html(`
+                    <i class="fa-solid fa-file-import mr-2"></i>
+                    Import Excel
+                `);
+
+                        if (xhr.status == 422) {
+
+                            $.each(xhr.responseJSON.errors, function(k, v) {
+
+                                toastr.error(v[0]);
+
+                            });
+
+                        } else {
+
+                            toastr.error('Import gagal.');
+
+                            console.log(xhr);
+
+                        }
+
+                    }
+
+                });
+
+            });
+
+            $('#excelFile').change(function() {
+
+                let file = this.files[0];
+
+                if (!file) return;
+
+                $('#selectedExcel').removeClass('hidden');
+
+                $('#excelName').text(file.name);
+
+                $('#excelSize').text(
+                    (file.size / 1024 / 1024).toFixed(2) + ' MB'
+                );
+
+                $('#btnImportSubmit')
+                    .prop('disabled', false)
+                    .removeClass('bg-gray-300')
+                    .addClass('bg-[#199db7]');
+            });
+
+            $('#removeExcel').click(function() {
+
+                $('#excelFile').val('');
+
+                $('#selectedExcel').addClass('hidden');
+
+                $('#btnImportSubmit')
+                    .prop('disabled', true)
+                    .removeClass('bg-[#199db7]')
+                    .addClass('bg-gray-300');
+
+            });
+
+            $('#closeImportModal').click(function() {
+
+                $('#importCertificateModal').addClass('hidden');
+
+                $('#importCertificateForm')[0].reset();
+
+                $('#selectedExcel').addClass('hidden');
+
+                $('#btnImportSubmit')
+                    .prop('disabled', true)
+                    .removeClass('bg-[#199db7]')
+                    .addClass('bg-gray-300');
+
+            });
+
+            
 
             // submit add
 

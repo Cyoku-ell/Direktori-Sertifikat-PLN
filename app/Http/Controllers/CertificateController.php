@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCertificateRequest;
 use App\Http\Requests\UpdateCertificateRequest;
+use App\Imports\CertificateImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Certificate;
 use App\Models\Unit;
 use App\Models\User;
@@ -402,6 +404,35 @@ class CertificateController extends Controller
             'position' => $user->position?->name,
 
             'status' => $user->is_active,
+
+        ]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+
+            'file' => 'required|mimes:xlsx,xls|max:30240',
+
+        ]);
+
+        $import = new CertificateImport();
+
+        Excel::import(
+
+            $import,
+
+            $request->file('file')
+
+        );
+
+        return response()->json([
+
+            'success' => true,
+
+            'message' => 'Import selesai.',
+
+            'summary' => $import->summary()
 
         ]);
     }
