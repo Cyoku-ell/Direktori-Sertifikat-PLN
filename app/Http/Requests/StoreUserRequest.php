@@ -33,4 +33,16 @@ class StoreUserRequest extends FormRequest
 
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Isi EMAIL Pegawai',
+            'nip.required' => 'Isi NIP Pegawai',
+            'perner.required' => 'isi PERNER Pegawai',
+            'position_id.required' => 'isi JABATAN pegawai',
+            'status.required' => 'isi STATUS pegawai',
+            'password.required' => 'isi PASSWORD pegawai',
+        ];
+    }
 }

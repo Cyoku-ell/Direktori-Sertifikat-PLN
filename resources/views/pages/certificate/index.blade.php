@@ -11,60 +11,73 @@
                 <div>
 
                     <h1 class="text-3xl font-bold text-[#146379]">
-
                         Direktori Sertifikat
-
                     </h1>
 
                     <p class="text-gray-500 mt-2">
-
                         Mengelola seluruh data sertifikat pegawai PLN.
-
                     </p>
 
                 </div>
 
-                <button id="btnAddCertificate"
-                    class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-sm font-medium text-[#199db7]
-                    shadow-sm border border-[#199db7]
-                    transition transform duration-200 ease-out
-                    hover:scale-110 hover:shadow-md
-                    hover:text-white hover:bg-[#199db7]">
+                @hasrole('admin')
+                    <div class="flex items-center gap-3">
 
-                    <i class="fa-solid fa-file-circle-plus"></i>
+                        <button id="btnImportCertificate"
+                            class="flex items-center gap-2
+                    px-4 py-2
+                    bg-white
+                    rounded-lg
+                    text-sm
+                    font-medium
+                    text-green-600
+                    shadow-sm
+                    border
+                    border-green-500
+                    transition
+                    transform
+                    duration-200
+                    hover:scale-110
+                    hover:text-white
+                    hover:bg-green-500">
 
-                    Tambah Sertifikat
+                            <i class="fa-solid fa-file-import"></i>
 
-                </button>
+                            Import Excel
 
-                <button id="btnImportCertificate"
-                    class="flex items-center gap-2
-    px-4 py-2
-    bg-white
-    rounded-lg
-    text-sm
-    font-medium
-    text-green-600
-    shadow-sm
-    border
-    border-green-500
-    transition
-    transform
-    duration-200
-    hover:scale-110
-    hover:text-white
-    hover:bg-green-500">
+                        </button>
 
-                    <i class="fa-solid fa-file-import"></i>
+                        <button id="btnAddCertificate"
+                            class="flex items-center gap-2
+                    px-4 py-2
+                    bg-white
+                    rounded-lg
+                    text-sm
+                    font-medium
+                    text-[#199db7]
+                    shadow-sm
+                    border
+                    border-[#199db7]
+                    transition
+                    transform
+                    duration-200
+                    hover:scale-110
+                    hover:shadow-md
+                    hover:text-white
+                    hover:bg-[#199db7]">
 
-                    Import Excel
+                            <i class="fa-solid fa-file-circle-plus"></i>
 
-                </button>
+                            Tambah Sertifikat
+
+                        </button>
+
+                    </div>
+                @endhasrole
 
             </div>
 
         </div>
-
         {{-- Table --}}
         <div class="bg-white rounded-3xl shadow-lg p-6 mt-6">
 
@@ -72,7 +85,7 @@
 
             @include('pages.certificate.partials.filter')
 
-            <table id="certificateTable" class="custom-table w-full text-sm text-left bg-[#199db7] rounded-2xl">
+            <table id="certificateTable" class="custom-table w-full  text-sm text-left bg-[#199db7] rounded-2xl">
 
                 <thead class="text-white">
 
@@ -92,7 +105,7 @@
 
                         <th>No. Sertifikat</th>
 
-                        <th>Instansi</th>
+                        <th>Instansi </th>
 
                         <th>Terbit</th>
 
@@ -131,10 +144,9 @@
         $(document).ready(function() {
 
             let selectedSync = '';
-
             let selectedPdf = '';
-
             let selectedUnit = '';
+            let selectedExpired = '';
 
             let table = $('#certificateTable').DataTable({
 
@@ -143,6 +155,8 @@
                 serverSide: true,
 
                 paging: true,
+
+                autoWidth: false,
 
                 dom: 'rtp',
 
@@ -153,14 +167,55 @@
                     data: function(d) {
 
                         d.sync = selectedSync;
-
                         d.pdf = selectedPdf;
-
                         d.unit = selectedUnit;
+                        d.expired = selectedExpired;
 
                     }
 
                 },
+
+                columnDefs: [{
+                        width: "50px",
+                        targets: 0
+                    }, // No
+                    {
+                        width: "180px",
+                        targets: 1
+                    }, // Nama
+                    {
+                        width: "90px",
+                        targets: 2
+                    }, // Perner
+                    {
+                        width: "260px",
+                        targets: 3
+                    }, // Judul Sertifikat
+                    {
+                        width: "150px",
+                        targets: 4
+                    }, // No Sertifikat
+                    {
+                        width: "170px",
+                        targets: 5
+                    }, // Lembaga
+                    {
+                        width: "120px",
+                        targets: 6
+                    }, // Terbit
+                    {
+                        width: "120px",
+                        targets: 7
+                    }, // Expired
+                    {
+                        width: "120px",
+                        targets: 8
+                    }, // Status
+                    {
+                        width: "130px",
+                        targets: 9
+                    }, // Action
+                ],
 
                 columns: [
 
@@ -230,19 +285,9 @@
 
             });
 
-            /*
-            |--------------------------------------------------------------------------
-            | ACTIVE FILTER
-            |--------------------------------------------------------------------------
-            */
-
             renderActiveFilters();
 
-            /*
-            |--------------------------------------------------------------------------
-            | DROPDOWN
-            |--------------------------------------------------------------------------
-            */
+            // dropdown filter
 
             $(document).on('click', '.filter-btn', function(e) {
 
@@ -324,16 +369,23 @@
 
             });
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | FILTER OPTION
-            |--------------------------------------------------------------------------
-            */
+            // filter option
 
             $(document).on('click', '.sync-option', function() {
 
                 selectedSync = $(this).data('value');
+
+                table.ajax.reload(null, false);
+
+                renderActiveFilters();
+
+                $('.filter-dropdown').addClass('hidden');
+
+            });
+
+            $(document).on('click', '.expired-option', function() {
+
+                selectedExpired = $(this).data('value');
 
                 table.ajax.reload(null, false);
 
@@ -369,12 +421,7 @@
 
             });
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | REMOVE FILTER
-            |--------------------------------------------------------------------------
-            */
+            // remove filter
 
             $(document).on('click', '.remove-filter', function() {
 
@@ -386,18 +433,15 @@
 
                 if (type == 'unit') selectedUnit = '';
 
+                if (type === 'expired') selectedExpired = '';
+
                 table.ajax.reload(null, false);
 
                 renderActiveFilters();
 
             });
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | ACTIVE FILTER
-            |--------------------------------------------------------------------------
-            */
+            // active filter
 
             function renderActiveFilters() {
 
@@ -419,6 +463,13 @@
                         type: 'pdf',
                         label: 'PDF',
                         text: getPdfText(selectedPdf)
+                    },
+
+                    {
+                        value: selectedExpired,
+                        type: 'expired',
+                        label: 'Expired',
+                        text: getExpiredText(selectedExpired)
                     },
 
                     {
@@ -463,6 +514,16 @@
                 if (value == 1) return 'Sinkron';
 
                 if (value == 0) return 'Belum Sinkron';
+
+                return '';
+
+            }
+
+            function getExpiredText(value) {
+
+                if (value == 1) return 'Sudah Diatur';
+
+                if (value == 0) return 'Belum Diatur';
 
                 return '';
 
@@ -685,7 +746,7 @@
 
             });
 
-            
+
 
             // submit add
 

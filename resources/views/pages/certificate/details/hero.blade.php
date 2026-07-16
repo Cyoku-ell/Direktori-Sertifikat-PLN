@@ -139,54 +139,6 @@
                 </a>
             @endif
 
-            <button type="button"
-                class="editCertificateBtn
-
-                px-5
-
-                py-2.5
-
-                rounded-xl
-
-                bg-amber-100
-
-                hover:bg-amber-200
-
-                text-amber-700
-
-                transition"
-                data-id="{{ $certificate->id }}">
-
-                <i class="fa-solid fa-pen-to-square mr-2"></i>
-
-                Edit
-
-            </button>
-
-            <button type="button"
-                class="deleteCertificateBtn
-
-                px-5
-
-                py-2.5
-
-                rounded-xl
-
-                bg-red-100
-
-                hover:bg-red-200
-
-                text-red-700
-
-                transition"
-                data-id="{{ $certificate->id }}" data-title="{{ $certificate->title }}">
-
-                <i class="fa-solid fa-trash mr-2"></i>
-
-                Hapus
-
-            </button>
-
         </div>
 
     </div>

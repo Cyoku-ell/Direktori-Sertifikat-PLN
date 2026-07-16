@@ -103,7 +103,11 @@
 
                         </div>
 
-                        <button type="button" id="removeExcel" class="text-red-500 hover:text-red-700">
+                        <button type="button" id="removeExcel"
+                            class="flex items-center gap-2 px-4 py-2 bg-white
+                            rounded-lg text-sm font-medium text-red-500 border-red-500 shadow-sm transition
+                            transform duration-200 ease-out hover:scale-110 hover:shadow-md hover:text-white
+                            hover:bg-red-500">
 
                             <i class="fa-solid fa-xmark text-xl"></i>
 
@@ -134,21 +138,48 @@
                 <div class="flex gap-3">
 
                     <button type="button" id="closeImportModal"
-                        class="px-5
-                        py-2
-                        border
-                        rounded-lg
-                        text-red-500
-                        border-red-500
-                        hover:bg-red-500
-                        hover:text-white">
+                        class="flex items-center gap-2
+                px-4 py-2
+                bg-white
+                rounded-lg
+                text-sm
+                font-medium
+                text-red-500
+                border
+                border-red-500
+                shadow-sm
+                transition
+                transform
+                duration-200
+                ease-out
+                hover:scale-110
+                hover:shadow-md
+                hover:text-white
+                hover:bg-red-500">
 
                         Batal
 
                     </button>
 
                     <button id="btnImportSubmit" type="submit" disabled
-                        class="px-5 py-2 rounded-lg bg-gray-300 text-white disabled:cursor-not-allowed">
+                        class="flex items-center gap-2
+                px-4 py-2
+                bg-white
+                rounded-lg
+                text-sm
+                font-medium
+                text-[#199db7]
+                border
+                border-[#199db7]
+                shadow-sm
+                transition
+                transform
+                duration-200
+                ease-out
+                hover:scale-110
+                hover:shadow-md
+                hover:text-white
+                hover:bg-[#199db7] disabled:cursor-not-allowed">
 
                         <i class="fa-solid fa-upload mr-2"></i>
 

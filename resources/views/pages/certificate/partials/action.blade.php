@@ -15,6 +15,7 @@
 
     </a>
 
+    @hasrole('admin')
     {{-- Edit --}}
     <button type="button"
         class="editCertificateBtn
@@ -46,5 +47,7 @@
         <i class="fa-solid fa-trash"></i>
 
     </button>
+
+    @endhasrole 
 
 </div>

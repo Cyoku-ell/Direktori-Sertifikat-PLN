@@ -33,7 +33,16 @@ class CertificateController extends Controller
             'user.unit',
             'user.position',
             'creator',
-        ])->latest();
+        ]);
+
+        if (auth()->user()->hasRole('admin')) {
+
+            $query->latest();
+        } else {
+
+            $query->where('user_id', auth()->id())
+                ->latest();
+        }
 
         if ($request->sync != '') {
 
@@ -48,6 +57,17 @@ class CertificateController extends Controller
             } else {
 
                 $query->whereNull('pdf');
+            }
+        }
+
+        if ($request->filled('expired')) {
+
+            if ($request->expired == 1) {
+
+                $query->whereNotNull('expired_at');
+            } else {
+
+                $query->whereNull('expired_at');
             }
         }
 

@@ -1,6 +1,6 @@
 <div id="addCertificateModal" class="fixed inset-0 z-50 hidden bg-black/50 overflow-y-auto">
 
-    <div class="min-h-screen flex items-center justify-center p-6">
+    <div class="min-h-screen flex  items-center justify-center p-6">
 
         <div
             class="bg-white 
@@ -15,7 +15,7 @@
             {{-- HEADER --}}
             {{-- ========================= --}}
 
-            <div class="px-8 py-6
+            <div class="px-8 py-6 sticky top-0 z-30
     border-b
     bg-white
     rounded-t-[30px]
@@ -678,7 +678,7 @@
                 {{-- ====================================================== --}}
                 {{-- FOOTER --}}
                 {{-- ====================================================== --}}
-                <div class="shrink-0
+                <div class="shrink-0 sticky bottom-0 z-30
     border-t
     bg-white
     rounded-b-[30px]

@@ -3,7 +3,7 @@
     use Carbon\Carbon;
 
     if (!$certificate->expired_at) {
-        $text = 'Tidak Ada Expired';
+        $text = 'No Expired';
 
         $class = 'bg-gray-100 text-gray-700';
     } else {

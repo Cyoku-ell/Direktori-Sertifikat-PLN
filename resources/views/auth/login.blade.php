@@ -20,11 +20,11 @@
             <div class="absolute top-0 left-0 w-full h-2 rounded-t-[30px] bg-[#fbf306]"></div>
 
             <h1 class="text-3xl font-bold text-center text-[#146379] mt-4">
-                Selamat Datang Kembali!
+                Selamat Datang!
             </h1>
 
             <p class="text-center text-gray-500 text-sm mt-2 mb-7">
-                Login untuk melanjutkan akses.
+                Login dengan akun yang di sediakan untuk melanjutkan akses.
             </p>
 
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
@@ -96,15 +96,7 @@
 
                     </label>
 
-                    @if (Route::has('password.request'))
-                        <a
-                            href="{{ route('password.request') }}"
-                            class="text-sm text-[#199db7] hover:text-[#146379]">
-
-                            Lupa Password?
-
-                        </a>
-                    @endif
+                  
 
                 </div>
 
@@ -117,20 +109,7 @@
 
                 </button>
 
-                <p class="text-center text-sm text-gray-500">
-
-                    Belum punya akun?
-
-                    <a
-                        href="{{ route('register') }}"
-                        class="text-[#199db7] hover:text-[#146379] font-semibold">
-
-                        Register
-
-                    </a>
-
-                </p>
-
+               
             </form>
 
         </div>
