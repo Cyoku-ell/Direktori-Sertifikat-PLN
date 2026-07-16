@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Certificate;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCertificateRequest extends FormRequest
 {
@@ -15,95 +16,29 @@ class StoreCertificateRequest extends FormRequest
     {
         return [
 
-            // ===========================
-            // Owner
-            // ===========================
+            'perner' => 'required|string',
 
-            'perner' => [
-                'required',
-                'string',
-                'max:50',
-            ],
+            'title' => 'required|string|max:255',
 
-            // ===========================
-            // Certificate
-            // ===========================
+            'certificate_number' => 'required|string|unique:certificates,certificate_number',
 
-            'title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'registration_number' => 'nullable|string',
 
-            'certificate_number' => [
-                'required',
-                'string',
-                'max:255',
-                'unique:certificates,certificate_number',
-            ],
+            'institution' => 'required|string|max:255',
 
-            'registration_number' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
+            'accreditor' => 'required|string|max:255',
 
-            'institution' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'issue_date' => 'required|date',
 
-            'accreditor' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'start_date' => 'nullable|date',
 
-            // ===========================
-            // Date
-            // ===========================
+            'end_date' => 'nullable|date',
 
-            'issue_date' => [
-                'required',
-                'date',
-            ],
+            'expired_at' => 'nullable|date|after_or_equal:issue_date',
 
-            'start_date' => [
-                'nullable',
-                'date',
-            ],
+            'remarks' => 'nullable|string',
 
-            'end_date' => [
-                'nullable',
-                'date',
-            ],
-
-            'expired_at' => [
-                'nullable',
-                'date',
-                'after_or_equal:issue_date',
-            ],
-
-            // ===========================
-            // File
-            // ===========================
-
-            'pdf' => [
-                'nullable',
-                'file',
-                'mimes:pdf',
-                'max:10240',
-            ],
-
-            // ===========================
-            // Remarks
-            // ===========================
-
-            'remarks' => [
-                'nullable',
-                'string',
-            ],
+            'pdf' => 'nullable|mimes:pdf|max:10240',
 
         ];
     }

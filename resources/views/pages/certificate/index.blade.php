@@ -86,7 +86,7 @@
 
                 </thead>
 
-                <tbody>
+                <tbody class="bg-white rounded-b-3xl">
 
                 </tbody>
 
@@ -190,6 +190,30 @@
 
                 $('#certificateForm')[0].reset();
 
+                $('#formMode').val('create');
+
+                $('#certificate_id').val('');
+
+                $('#certificateModalTitle').text(
+                    'Tambah Sertifikat'
+                );
+
+                $('#certificateModalSubtitle').text(
+                    'Tambahkan data sertifikat pegawai PLN.'
+                );
+
+                $('#submitCertificateText').text(
+                    'Simpan Sertifikat'
+                );
+
+                $('#certificateFooterInfo').html(
+                    '<i class="fa-solid fa-circle-info mr-2 text-[#199db7]"></i> Pastikan seluruh data sudah benar sebelum disimpan.'
+                );
+
+                $('#currentPdf').addClass('hidden');
+
+                $('#pdfPreview').addClass('hidden');
+
                 $('#addCertificateModal').removeClass('hidden');
 
             });
@@ -200,7 +224,330 @@
 
             });
 
+            // submit add
+
+            /*
+        |--------------------------------------------------------------------------
+        | SUBMIT ADD & EDIT
+        |--------------------------------------------------------------------------
+        */
+
+            $('#certificateForm').submit(function(e) {
+
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                let mode = $('#formMode').val();
+
+                let id = $('#certificate_id').val();
+
+                let url = "";
+
+                if (mode == "create") {
+
+                    url = "{{ route('certificates.store') }}";
+
+                } else {
+
+                    url = "/certificates/" + id;
+
+                    formData.append('_method', 'PUT');
+
+                }
+
+                $.ajax({
+
+                    url: url,
+
+                    type: "POST",
+
+                    data: formData,
+
+                    processData: false,
+
+                    contentType: false,
+
+                    success: function(res) {
+
+                        toastr.success(res.message);
+
+                        $('#addCertificateModal').addClass('hidden');
+
+                        $('#certificateForm')[0].reset();
+
+                        $('#currentPdf').addClass('hidden');
+
+                        $('#pdfPreview').addClass('hidden');
+
+                        $('#certificate_id').val('');
+
+                        $('#formMode').val('create');
+
+                        $('#certificateModalTitle').text(
+                            'Tambah Sertifikat'
+                        );
+
+                        $('#certificateModalSubtitle').text(
+                            'Tambahkan data sertifikat pegawai PLN.'
+                        );
+
+                        $('#submitCertificateText').text(
+                            'Simpan Sertifikat'
+                        );
+
+                        table.ajax.reload(null, false);
+
+                    },
+
+                    error: function(xhr) {
+
+                        if (xhr.status == 422) {
+
+                            $.each(xhr.responseJSON.errors, function(k, v) {
+
+                                toastr.error(v[0]);
+
+                            });
+
+                        } else {
+
+                            toastr.error('Terjadi kesalahan.');
+
+                            console.log(xhr);
+
+                        }
+
+                    }
+
+                });
+
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | EDIT CERTIFICATE
+            |--------------------------------------------------------------------------
+            */
+
+            $(document).on('click', '.editCertificateBtn', function() {
+
+                let id = $(this).data('id');
+
+                $.ajax({
+
+                    url: "/certificates/" + id + "/edit",
+
+                    type: "GET",
+
+                    success: function(res) {
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | MODE
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('#formMode').val('edit');
+
+                        $('#certificate_id').val(res.id);
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | HEADER
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('#certificateModalTitle').text(
+                            'Edit Sertifikat'
+                        );
+
+                        $('#certificateModalSubtitle').text(
+                            'Perbarui data sertifikat pegawai PLN.'
+                        );
+
+                        $('#submitCertificateText').text(
+                            'Update Sertifikat'
+                        );
+
+                        $('#certificateFooterInfo').html(
+                            '<i class="fa-solid fa-pen-to-square mr-2 text-amber-500"></i> Perbarui data sertifikat kemudian tekan Update.'
+                        );
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | OWNER
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('#perner').val(res.perner);
+
+                        $('#owner_username').val(res.username);
+
+                        $('#owner_unit').val(res.unit);
+
+                        $('#owner_position').val(res.position);
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | CERTIFICATE
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('input[name="title"]').val(res.title);
+
+                        $('input[name="certificate_number"]').val(
+                            res.certificate_number
+                        );
+
+                        $('input[name="registration_number"]').val(
+                            res.registration_number
+                        );
+
+                        $('input[name="institution"]').val(
+                            res.institution
+                        );
+
+                        $('input[name="accreditor"]').val(
+                            res.accreditor
+                        );
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | DATE
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('#issue_date').val(res.issue_date);
+
+                        $('input[name="start_date"]').val(
+                            res.start_date
+                        );
+
+                        $('input[name="end_date"]').val(
+                            res.end_date
+                        );
+
+                        $('#expired_at').val(
+                            res.expired_at
+                        );
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | REMARK
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('textarea[name="remarks"]').val(
+                            res.remarks
+                        );
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | PDF
+                        |--------------------------------------------------------------------------
+                        */
+
+                        if (res.pdf) {
+
+                            $('#currentPdf').removeClass('hidden');
+
+                            $('#currentPdfLink').attr(
+                                'href',
+                                res.pdf
+                            );
+
+                        } else {
+
+                            $('#currentPdf').addClass('hidden');
+
+                        }
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | MODAL
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $('#addCertificateModal').removeClass('hidden');
+
+                    }
+
+                });
+
+            });
+
+            /*
+    |--------------------------------------------------------------------------
+    | DELETE CERTIFICATE
+    |--------------------------------------------------------------------------
+    */
+
+            $(document).on('click', '.deleteCertificateBtn', function() {
+
+                let id = $(this).data('id');
+
+                Swal.fire({
+
+                    title: 'Hapus Sertifikat?',
+
+                    text: 'Data yang dihapus tidak dapat dikembalikan.',
+
+                    icon: 'warning',
+
+                    showCancelButton: true,
+
+                    confirmButtonColor: '#dc2626',
+
+                    cancelButtonColor: '#9ca3af',
+
+                    confirmButtonText: 'Ya, Hapus',
+
+                    cancelButtonText: 'Batal',
+
+                }).then((result) => {
+
+                    if (!result.isConfirmed) return;
+
+                    $.ajax({
+
+                        url: "/certificates/" + id,
+
+                        type: "POST",
+
+                        data: {
+
+                            _method: "DELETE",
+
+                            _token: $('meta[name="csrf-token"]').attr('content')
+
+                        },
+
+                        success: function(res) {
+
+                            toastr.success(res.message);
+
+                            table.ajax.reload(null, false);
+
+                        },
+
+                        error: function(xhr) {
+
+                            toastr.error('Gagal menghapus sertifikat.');
+
+                            console.log(xhr);
+
+                        }
+
+                    });
+
+                });
+
+            });
+
+
         });
+
 
         // preview pdf
         $('#pdf').change(function() {
@@ -343,6 +690,5 @@
             });
 
         }
-
     </script>
 @endsection

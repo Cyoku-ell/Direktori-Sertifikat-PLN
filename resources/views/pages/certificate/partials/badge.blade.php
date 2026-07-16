@@ -2,14 +2,14 @@
 
     use Carbon\Carbon;
 
-    if (!$row->expired_at) {
+    if (!$certificate->expired_at) {
         $text = 'Tidak Ada Expired';
 
         $class = 'bg-gray-100 text-gray-700';
     } else {
         $today = Carbon::today();
 
-        $expired = Carbon::parse($row->expired_at);
+        $expired = Carbon::parse($certificate->expired_at);
 
         if ($expired->isPast()) {
             $text = 'Expired';

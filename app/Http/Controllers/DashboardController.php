@@ -26,8 +26,6 @@ class DashboardController extends Controller
         $totalUnit = Unit::count();
 
         $latestCertificates = Certificate::with([
-            'unit',
-            'certification',
             'user'
         ])
             ->latest()

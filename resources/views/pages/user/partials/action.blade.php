@@ -1,25 +1,37 @@
-<div class="flex gap-2">
+<div class="flex items-center justify-center gap-2">
 
-    <a class="btnEdit
-           bg-yellow-500 hover:bg-yellow-600
-           text-white px-2 py-1 rounded-md
-           cursor-pointer"
-        data-id="{{ $row->id }}">
-        <i class="fa fa-pen"></i>
-    </a>
+    {{-- Edit --}}
+    <button type="button"
+        class="btnEdit
+        w-10 h-10
+        rounded-xl
+        bg-amber-100
+        hover:bg-amber-200
+        text-amber-600
+        transition
+        flex items-center justify-center"
+        data-id="{{ $row->id }}" title="Edit">
+
+        <i class="fa-solid fa-pen-to-square"></i>
+
+    </button>
+
     @if (auth()->id() != $row->id)
-        <a data-id="{{ $row->id }}"
+        {{-- Delete --}}
+        <button type="button"
             class="btnDelete
-           bg-red-500
-           hover:bg-red-600
-           text-white
-           px-2 py-1
-           rounded-md
-           cursor-pointer">
+            w-10 h-10
+            rounded-xl
+            bg-red-100
+            hover:bg-red-200
+            text-red-600
+            transition
+            flex items-center justify-center"
+            data-id="{{ $row->id }}" title="Hapus">
 
-            <i class="fa fa-trash"></i>
+            <i class="fa-solid fa-trash"></i>
 
-        </a>
+        </button>
     @endif
 
 </div>
