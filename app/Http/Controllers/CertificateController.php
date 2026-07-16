@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCertificateRequest;
 use App\Http\Requests\UpdateCertificateRequest;
+use App\Imports\CertificateImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Certificate;
+use App\Models\Unit;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,16 +19,45 @@ class CertificateController extends Controller
 {
     public function index()
     {
-        return view('pages.certificate.index');
+        $units = Unit::orderBy('name')->get();
+
+        return view(
+            'pages.certificate.index',
+            compact('units')
+        );
     }
 
-    public function datatable()
+    public function datatable(Request $request)
     {
         $query = Certificate::with([
             'user.unit',
             'user.position',
             'creator',
         ])->latest();
+
+        if ($request->sync != '') {
+
+            $query->where('is_matched', $request->sync);
+        }
+
+        if ($request->pdf != '') {
+
+            if ($request->pdf == 1) {
+
+                $query->whereNotNull('pdf');
+            } else {
+
+                $query->whereNull('pdf');
+            }
+        }
+
+        if ($request->unit != '') {
+
+            $query->whereHas('user.unit', function ($q) use ($request) {
+
+                $q->where('id', $request->unit);
+            });
+        }
 
         return DataTables::of($query)
 
@@ -372,6 +404,35 @@ class CertificateController extends Controller
             'position' => $user->position?->name,
 
             'status' => $user->is_active,
+
+        ]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+
+            'file' => 'required|mimes:xlsx,xls|max:30240',
+
+        ]);
+
+        $import = new CertificateImport();
+
+        Excel::import(
+
+            $import,
+
+            $request->file('file')
+
+        );
+
+        return response()->json([
+
+            'success' => true,
+
+            'message' => 'Import selesai.',
+
+            'summary' => $import->summary()
 
         ]);
     }

@@ -44,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('toggle-active');
         });
 
+    Route::post('/certificates/import', [CertificateController::class, 'import'])
+        ->name('certificates.import');
+
     Route::prefix('certificates')
         ->name('certificates.')
         ->controller(CertificateController::class)

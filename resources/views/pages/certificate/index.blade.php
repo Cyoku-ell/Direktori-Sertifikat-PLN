@@ -37,6 +37,30 @@
 
                 </button>
 
+                <button id="btnImportCertificate"
+                    class="flex items-center gap-2
+    px-4 py-2
+    bg-white
+    rounded-lg
+    text-sm
+    font-medium
+    text-green-600
+    shadow-sm
+    border
+    border-green-500
+    transition
+    transform
+    duration-200
+    hover:scale-110
+    hover:text-white
+    hover:bg-green-500">
+
+                    <i class="fa-solid fa-file-import"></i>
+
+                    Import Excel
+
+                </button>
+
             </div>
 
         </div>
@@ -99,12 +123,18 @@
     {{-- Modal --}}
     @include('pages.certificate.modal.add')
 
-    @include('pages.certificate.modal.edit')
+    @include('pages.certificate.modal.import')
 @endsection
 
 @section('script')
     <script>
         $(document).ready(function() {
+
+            let selectedSync = '';
+
+            let selectedPdf = '';
+
+            let selectedUnit = '';
 
             let table = $('#certificateTable').DataTable({
 
@@ -116,7 +146,21 @@
 
                 dom: 'rtp',
 
-                ajax: "{{ route('certificates.datatable') }}",
+                ajax: {
+
+                    url: "{{ route('certificates.datatable') }}",
+
+                    data: function(d) {
+
+                        d.sync = selectedSync;
+
+                        d.pdf = selectedPdf;
+
+                        d.unit = selectedUnit;
+
+                    }
+
+                },
 
                 columns: [
 
@@ -186,6 +230,256 @@
 
             });
 
+            /*
+            |--------------------------------------------------------------------------
+            | ACTIVE FILTER
+            |--------------------------------------------------------------------------
+            */
+
+            renderActiveFilters();
+
+            /*
+            |--------------------------------------------------------------------------
+            | DROPDOWN
+            |--------------------------------------------------------------------------
+            */
+
+            $(document).on('click', '.filter-btn', function(e) {
+
+                e.stopPropagation();
+
+                let target = $(this).data('target');
+
+                let dropdown = $(target);
+
+                let arrow = $(this).find('.dropdown-arrow');
+
+                $('.dropdown-arrow').removeClass('rotate-180');
+
+                $('.filter-dropdown').not(dropdown).each(function() {
+
+                    $(this)
+                        .removeClass('scale-100 opacity-100')
+                        .addClass('scale-95 opacity-0');
+
+                    let el = $(this);
+
+                    setTimeout(function() {
+
+                        el.addClass('hidden');
+
+                    }, 200);
+
+                });
+
+                if (dropdown.hasClass('hidden')) {
+
+                    dropdown.removeClass('hidden');
+
+                    setTimeout(function() {
+
+                        dropdown
+                            .removeClass('scale-95 opacity-0')
+                            .addClass('scale-100 opacity-100');
+
+                    }, 10);
+
+                    arrow.addClass('rotate-180');
+
+                } else {
+
+                    dropdown
+                        .removeClass('scale-100 opacity-100')
+                        .addClass('scale-95 opacity-0');
+
+                    setTimeout(function() {
+
+                        dropdown.addClass('hidden');
+
+                    }, 200);
+
+                }
+
+            });
+
+            $(document).on('click', function() {
+
+                $('.filter-dropdown').each(function() {
+
+                    $(this)
+                        .removeClass('scale-100 opacity-100')
+                        .addClass('scale-95 opacity-0');
+
+                    let el = $(this);
+
+                    setTimeout(function() {
+
+                        el.addClass('hidden');
+
+                    }, 200);
+
+                });
+
+                $('.dropdown-arrow').removeClass('rotate-180');
+
+            });
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | FILTER OPTION
+            |--------------------------------------------------------------------------
+            */
+
+            $(document).on('click', '.sync-option', function() {
+
+                selectedSync = $(this).data('value');
+
+                table.ajax.reload(null, false);
+
+                renderActiveFilters();
+
+                $('.filter-dropdown').addClass('hidden');
+
+            });
+
+
+            $(document).on('click', '.pdf-option', function() {
+
+                selectedPdf = $(this).data('value');
+
+                table.ajax.reload(null, false);
+
+                renderActiveFilters();
+
+                $('.filter-dropdown').addClass('hidden');
+
+            });
+
+
+            $(document).on('click', '.unit-option', function() {
+
+                selectedUnit = $(this).data('value');
+
+                table.ajax.reload(null, false);
+
+                renderActiveFilters();
+
+                $('.filter-dropdown').addClass('hidden');
+
+            });
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | REMOVE FILTER
+            |--------------------------------------------------------------------------
+            */
+
+            $(document).on('click', '.remove-filter', function() {
+
+                let type = $(this).data('type');
+
+                if (type == 'sync') selectedSync = '';
+
+                if (type == 'pdf') selectedPdf = '';
+
+                if (type == 'unit') selectedUnit = '';
+
+                table.ajax.reload(null, false);
+
+                renderActiveFilters();
+
+            });
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ACTIVE FILTER
+            |--------------------------------------------------------------------------
+            */
+
+            function renderActiveFilters() {
+
+                const container = $("#activeFilters");
+
+                container.empty();
+
+                const filters = [
+
+                    {
+                        value: selectedSync,
+                        type: 'sync',
+                        label: 'Sinkronisasi',
+                        text: getSyncText(selectedSync)
+                    },
+
+                    {
+                        value: selectedPdf,
+                        type: 'pdf',
+                        label: 'PDF',
+                        text: getPdfText(selectedPdf)
+                    },
+
+                    {
+                        value: selectedUnit,
+                        type: 'unit',
+                        label: 'Unit',
+                        text: getText('.unit-option', selectedUnit)
+                    }
+
+                ];
+
+                filters.forEach(f => addFilter(container, f.value, f.type, f.label, f.text));
+
+            }
+
+
+            function addFilter(container, value, type, label, text) {
+
+                if (value === '') return;
+
+                container.append(`
+        <span class="filter-badge filter-${type}">
+            ${label}: ${text}
+            <button class="remove-filter filter-remove" data-type="${type}">
+                ✕
+            </button>
+        </span>
+    `);
+
+            }
+
+
+            function getText(selector, value) {
+
+                return $(`${selector}[data-value="${value}"]`).text().trim();
+
+            }
+
+
+            function getSyncText(value) {
+
+                if (value == 1) return 'Sinkron';
+
+                if (value == 0) return 'Belum Sinkron';
+
+                return '';
+
+            }
+
+
+            function getPdfText(value) {
+
+                if (value == 1) return 'Sudah Upload';
+
+                if (value == 0) return 'Belum Upload';
+
+                return '';
+
+            }
+
+
             $('#btnAddCertificate').click(function() {
 
                 $('#certificateForm')[0].reset();
@@ -224,13 +518,182 @@
 
             });
 
+            $('#btnImportCertificate').click(function() {
+
+                $('#importCertificateModal').removeClass('hidden');
+
+            });
+
+            $('#closeImportModal').click(function() {
+
+                $('#importCertificateModal').addClass('hidden');
+
+            });
+
+            $('#importCertificateForm').submit(function(e) {
+
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+
+                    url: "{{ route('certificates.import') }}",
+
+                    type: "POST",
+
+                    data: formData,
+
+                    processData: false,
+
+                    contentType: false,
+
+                    beforeSend: function() {
+
+                        $('#btnImportSubmit')
+                            .prop('disabled', true)
+                            .html(`
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    Mengimpor...
+                `);
+
+                    },
+
+                    success: function(res) {
+
+                        toastr.success(res.message);
+
+                        table.ajax.reload(null, false);
+
+                        $('#importCertificateModal').addClass('hidden');
+
+                        $('#importCertificateForm')[0].reset();
+
+                        $('#btnImportSubmit')
+                            .prop('disabled', false)
+                            .html(`
+                    <i class="fa-solid fa-file-import mr-2"></i>
+                    Import Excel
+                `);
+
+                        Swal.fire({
+
+                            icon: 'success',
+
+                            title: 'Import Selesai',
+
+                            html: `
+
+                    <div class="text-left mt-4 space-y-2">
+
+                        <div>✅ Berhasil : <b>${res.summary.success}</b></div>
+
+                        <div>⚠️ Duplikat : <b>${res.summary.duplicate}</b></div>
+
+                        <div>❌ Gagal : <b>${res.summary.failed}</b></div>
+
+                        <div>👤 Belum Sinkron : <b>${res.summary.unmatched}</b></div>
+
+                        <div>🏢 Unit Baru : <b>${res.summary.new_units}</b></div>
+
+                        <div>💼 Jabatan Baru : <b>${res.summary.new_positions}</b></div>
+
+                    </div>
+
+                `
+
+                        });
+
+                    },
+
+                    error: function(xhr) {
+
+                        $('#btnImportSubmit')
+                            .prop('disabled', false)
+                            .html(`
+                    <i class="fa-solid fa-file-import mr-2"></i>
+                    Import Excel
+                `);
+
+                        if (xhr.status == 422) {
+
+                            $.each(xhr.responseJSON.errors, function(k, v) {
+
+                                toastr.error(v[0]);
+
+                            });
+
+                        } else {
+
+                            toastr.error('Import gagal.');
+
+                            console.log(xhr);
+
+                        }
+
+                    }
+
+                });
+
+            });
+
+            $('#excelFile').change(function() {
+
+                let file = this.files[0];
+
+                if (!file) return;
+
+                $('#selectedExcel').removeClass('hidden');
+
+                $('#excelName').text(file.name);
+
+                $('#excelSize').text(
+                    (file.size / 1024 / 1024).toFixed(2) + ' MB'
+                );
+
+                $('#btnImportSubmit')
+                    .prop('disabled', false)
+                    .removeClass('bg-gray-300')
+                    .addClass('bg-[#199db7]');
+            });
+
+            $('#removeExcel').click(function() {
+
+                $('#excelFile').val('');
+
+                $('#selectedExcel').addClass('hidden');
+
+                $('#btnImportSubmit')
+                    .prop('disabled', true)
+                    .removeClass('bg-[#199db7]')
+                    .addClass('bg-gray-300');
+
+            });
+
+            $('#closeImportModal').click(function() {
+
+                $('#importCertificateModal').addClass('hidden');
+
+                $('#importCertificateForm')[0].reset();
+
+                $('#selectedExcel').addClass('hidden');
+
+                $('#btnImportSubmit')
+                    .prop('disabled', true)
+                    .removeClass('bg-[#199db7]')
+                    .addClass('bg-gray-300');
+
+            });
+
+            
+
             // submit add
 
             /*
-        |--------------------------------------------------------------------------
-        | SUBMIT ADD & EDIT
-        |--------------------------------------------------------------------------
-        */
+            |--------------------------------------------------------------------------
+            | SUBMIT ADD & EDIT
+            |--------------------------------------------------------------------------
+            */
 
             $('#certificateForm').submit(function(e) {
 
@@ -321,6 +784,8 @@
                     }
 
                 });
+
+
 
             });
 
@@ -463,11 +928,7 @@
 
                         }
 
-                        /*
-                        |--------------------------------------------------------------------------
-                        | MODAL
-                        |--------------------------------------------------------------------------
-                        */
+                        /*  MODAL  */
 
                         $('#addCertificateModal').removeClass('hidden');
 
@@ -477,11 +938,7 @@
 
             });
 
-            /*
-    |--------------------------------------------------------------------------
-    | DELETE CERTIFICATE
-    |--------------------------------------------------------------------------
-    */
+            /* DELETE CERTIFICATE  */
 
             $(document).on('click', '.deleteCertificateBtn', function() {
 
